@@ -1037,7 +1037,7 @@ export default function App()
       {/* A. AZA-STYLE CLONE HEADER WITH MEGAMENU */}
       {currentRole === 'consumer' && (
         <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E5E5] transition-all duration-300">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
 
             {/* Main Header Bar */}
             <div className="flex items-center justify-between h-20">
@@ -1205,7 +1205,12 @@ export default function App()
 
                 {/* Mega Dropdown */}
                 {hoveredMegamenu === 'handloom' && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white border border-[#E5E5E5] shadow-premium p-6 grid grid-cols-3 text-left normal-case tracking-normal z-50">
+                  <div
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white border border-[#E5E5E5] shadow-premium p-6 grid grid-cols-3 text-left normal-case tracking-normal z-50"
+                    style={{
+                      animation: 'megamenu-enter 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards'
+                    }}
+                  >
                     <div className="space-y-2">
                       <h5 className="text-[10px] font-bold uppercase tracking-wider text-[#C5A880] border-b pb-1.5">By Weave Style</h5>
                       <ul className="text-xs space-y-2 text-gray-600 font-light">
@@ -1246,7 +1251,12 @@ export default function App()
 
                 {/* Mega Dropdown */}
                 {hoveredMegamenu === 'handicraft' && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[480px] bg-white border border-[#E5E5E5] shadow-premium p-6 grid grid-cols-2 text-left normal-case tracking-normal z-50">
+                  <div
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-[480px] bg-white border border-[#E5E5E5] shadow-premium p-6 grid grid-cols-2 text-left normal-case tracking-normal z-50"
+                    style={{
+                      animation: 'megamenu-enter 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards'
+                    }}
+                  >
                     <div className="space-y-2">
                       <h5 className="text-[10px] font-bold uppercase tracking-wider text-[#C5A880] border-b pb-1.5">Material Curation</h5>
                       <ul className="text-xs space-y-2 text-gray-600 font-light">
@@ -1288,7 +1298,7 @@ export default function App()
       {/* B. VENDOR HEADER */}
       {currentRole === 'vendor' && (
         <header className="bg-[#1A1A1A] text-white sticky top-0 z-40 border-b border-white/5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img src="/images/ne_artisan_logo.png" alt="Itin Guild" className="w-9 h-9 object-contain invert" />
               <div>
@@ -1326,7 +1336,7 @@ export default function App()
       {/* C. RIDER HEADER */}
       {currentRole === 'delivery' && (
         <header className="bg-emerald-950 text-white sticky top-0 z-40 border-b border-emerald-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
             <div>
               <h1 className="font-serif text-base sm:text-lg tracking-widest font-semibold text-emerald-400">ITIN LOGISTICS</h1>
               <span className="text-[8px] uppercase tracking-widest text-emerald-200 block font-medium">Captain Workspace Portal</span>
@@ -1354,7 +1364,7 @@ export default function App()
       {/* D. QA ADMIN HEADER */}
       {currentRole === 'admin' && (
         <header className="bg-[#121212] text-white sticky top-0 z-40 border-b border-[#222]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <ShieldAlert className="w-5 h-5 text-red-500" />
               <div>
@@ -1377,11 +1387,11 @@ export default function App()
            5.4 DYNAMIC BODY VIEWS
            ============================================== */}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-32">
+      <main className={currentRole === 'consumer' ? 'pb-32' : 'max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-32'}>
 
         {/* VIEW A: CONSUMER VIEWPORT */}
         {currentRole === 'consumer' && (
-          <div className="space-y-16">
+          <div className="space-y-0">
 
             {/* VIEW A.1: STOREFRONT HOME GRID */}
             {activeView.type === 'storefront' && (
@@ -1391,8 +1401,8 @@ export default function App()
                 exit={{ opacity: 0 }}
                 className="space-y-16"
               >
-                {/* 1. AUTO-SLIDING LUXURY CAROUSEL */}
-                <div className="relative h-[280px] sm:h-[400px] lg:h-[480px] w-full overflow-hidden bg-black group rounded-none">
+                {/* 1. AUTO-SLIDING LUXURY CAROUSEL — Full Bleed */}
+                <div className="relative h-[340px] sm:h-[460px] lg:h-[560px] w-full overflow-hidden bg-black group rounded-none">
 
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -1449,7 +1459,8 @@ export default function App()
 
                 </div>
 
-
+                {/* ========== CENTERED STOREFRONT CONTAINER ========== */}
+                <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 space-y-16 pt-16">
 
                 {/* COUTURE DISCOUNT CAMPAIGN PROMOS */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
@@ -1588,10 +1599,10 @@ export default function App()
                 </div>
 
                 {/* 4. AZA-STYLE E-COMMERCE SHOPPING GRID */}
-                <div id="handlooms-section" className="grid grid-cols-1 lg:grid-cols-4 gap-8 text-left">
+                <div id="handlooms-section" className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 text-left">
 
                   {/* Left Column Filters (Desktop) */}
-                  <div className="hidden lg:block space-y-4 lg:border-r lg:border-gray-200 lg:pr-8">
+                  <div className="hidden lg:block space-y-4 lg:border-r lg:border-gray-200 lg:pr-8 sticky top-28 self-start">
                     <div className="flex items-center gap-2 pb-4 border-b border-gray-200">
                       <SlidersHorizontal className="w-4 h-4 text-[#C5A880]" />
                       <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[#1A1A1A]">Filters</h4>
@@ -1722,7 +1733,7 @@ export default function App()
                   </div>
 
                   {/* Right Columns: Product Grid */}
-                  <div className="lg:col-span-3 space-y-6">
+                  <div className="space-y-6">
 
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-gray-500 font-light">
@@ -1824,12 +1835,12 @@ export default function App()
                               <img
                                 src={p.primaryImg}
                                 alt={p.name}
-                                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+                                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out group-hover:opacity-0"
                               />
                               <img
                                 src={p.secondaryImg}
                                 alt={`${p.name} detail`}
-                                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+                                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
                               />
 
                               {/* Slide-Up size option Quick Shop overlay */}
@@ -1845,7 +1856,7 @@ export default function App()
                                     <button
                                       key={size}
                                       onClick={() => addToCart(p, size)}
-                                      className="border border-[#E5E5E5] hover:border-[#C5A880] hover:text-[#C5A880] px-2.5 py-1 text-[8.5px] uppercase tracking-wider font-semibold bg-white transition-colors"
+                                      className="border border-[#E5E5E5] hover:border-[#C5A880] hover:text-[#C5A880] px-2.5 py-1 text-[8.5px] uppercase tracking-wider font-semibold bg-white transition-colors duration-150 active:scale-95"
                                     >
                                       {size}
                                     </button>
@@ -1894,7 +1905,7 @@ export default function App()
                                     e.stopPropagation();
                                     addToCart(p, p.sizes[0]);
                                   }}
-                                  className="w-full py-2 bg-[#1A1A1A] text-[#C5A880] hover:bg-[#C5A880] hover:text-[#1A1A1A] text-[9px] uppercase tracking-widest font-semibold transition-all duration-300"
+                                  className="w-full py-2 bg-[#1A1A1A] text-[#C5A880] hover:bg-[#C5A880] hover:text-[#1A1A1A] text-[9px] uppercase tracking-widest font-semibold transition-colors duration-200 active:scale-[0.97] active:opacity-80 transition-transform duration-100"
                                 >
                                   Acquire Piece
                                 </button>
@@ -1910,6 +1921,8 @@ export default function App()
                   </div>
                 </div>
 
+                </div>{/* END CENTERED STOREFRONT CONTAINER */}
+
               </motion.div>
             )}
 
@@ -1919,7 +1932,7 @@ export default function App()
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="space-y-8 text-left"
+                className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-10 space-y-8 text-left"
               >
                 <button
                   onClick={() => setActiveView({ type: 'storefront', value: null })}
@@ -1928,7 +1941,7 @@ export default function App()
                   <ArrowLeft className="w-4 h-4" /> Back to Catalog
                 </button>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white p-6 sm:p-10 border border-[#E5DEC9] rounded-none">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white premium-card-container border border-[#E5DEC9] rounded-none">
 
                   {/* Left Column: Image Gallery */}
                   <div className="space-y-4">
@@ -2370,7 +2383,7 @@ export default function App()
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="space-y-8 text-left"
+                className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-10 space-y-8 text-left"
               >
                 <button
                   onClick={() => setActiveView({ type: 'storefront', value: null })}
@@ -2381,7 +2394,7 @@ export default function App()
 
                 {/* Profile Header */}
                 {GUILD_DESIGNERS.filter(g => g.id === activeView.value).map(guild => (
-                  <div key={guild.id} className="bg-white border border-[#E5DEC9] p-6 sm:p-10 space-y-6">
+                  <div key={guild.id} className="bg-white border border-[#E5DEC9] premium-card-container space-y-6">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-100 pb-6">
                       <div className="flex items-center gap-4">
                         <div className="w-16 h-16 rounded-full border border-[#C5A880] bg-[#F5EFEB] flex items-center justify-center text-3xl">
@@ -2443,7 +2456,7 @@ export default function App()
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="space-y-8 text-left"
+                className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-10 space-y-8 text-left"
               >
                 <button
                   onClick={() => setActiveView({ type: 'storefront', value: null })}
@@ -2460,7 +2473,7 @@ export default function App()
 
                 <div className="space-y-12">
                   {HERO_SLIDES.map((slide, idx) => (
-                    <div key={idx} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-[#E5DEC9] p-6 sm:p-10">
+                    <div key={idx} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-[#E5DEC9] premium-card-container">
                       <div className="aspect-[16/10] overflow-hidden relative group">
                         <img src={slide.image} alt={slide.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
 
@@ -2535,7 +2548,7 @@ export default function App()
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="space-y-8 text-left max-w-3xl mx-auto"
+                className="max-w-3xl mx-auto px-5 py-10 space-y-8 text-left"
               >
                 <button
                   onClick={() => setActiveView({ type: 'storefront', value: null })}
@@ -2607,6 +2620,7 @@ export default function App()
             )}
 
             {/* 7. HERITAGE DIRECTORY A-Z */}
+            <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 space-y-16 pt-0">
             <div id="az-catalog" className="bg-white border border-[#E5DEC9] p-6 sm:p-8 lg:p-12 text-left space-y-8">
               <div className="border-b border-gray-100 pb-4">
                 <span className="text-[8.5px] uppercase tracking-[0.3em] text-[#C5A880] font-bold block mb-1">Heritage Catalog</span>
@@ -2637,7 +2651,7 @@ export default function App()
             </div>
 
             {/* 8. CUSTOMER TESTIMONIALS */}
-            <div className="bg-white border border-[#E5DEC9] p-6 sm:p-8 lg:p-12 text-left space-y-8">
+            <div className="bg-white border border-[#E5DEC9] p-6 sm:p-8 lg:p-12 text-left space-y-8 mt-16">
               <div className="text-center border-b border-gray-100 pb-4">
                 <span className="text-[8.5px] uppercase tracking-[0.3em] text-[#C5A880] font-bold block mb-1">Prestige Voices</span>
                 <h3 className="text-lg sm:text-xl font-serif font-semibold text-[#1A1A1A]">What Our Collectors Say</h3>
@@ -2678,6 +2692,7 @@ export default function App()
 
             {/* 9. RECENTLY VIEWED PRODUCTS */}
             {recentlyViewed.length > 0 && (
+              <div className="mt-16">
               <div className="bg-white border border-[#E5DEC9] p-6 sm:p-8 text-left space-y-6">
                 <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
                   <Eye className="w-4 h-4 text-[#C5A880]" />
@@ -2702,10 +2717,13 @@ export default function App()
                   ))}
                 </div>
               </div>
+              </div>
             )}
 
-            {/* 10. NEWSLETTER SIGNUP BANNER */}
-            <div className="relative bg-[#1A1A1A] text-white p-8 sm:p-12 text-center overflow-hidden">
+            </div>{/* END A-Z / Testimonials / Recently Viewed centered container */}
+
+            {/* 10. NEWSLETTER SIGNUP BANNER — Full Bleed */}
+            <div className="relative bg-[#1A1A1A] text-white p-10 sm:p-16 lg:p-20 text-center overflow-hidden mt-20">
               <div className="absolute inset-0 opacity-5">
                 <div className="w-full h-full" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(197,168,128,0.3) 35px, rgba(197,168,128,0.3) 36px)' }} />
               </div>
@@ -2743,8 +2761,9 @@ export default function App()
               </div>
             </div>
 
-            {/* AZA-STYLE PRESTIGE FOOTER */}
-            <footer className="border-t border-[#E5E5E5] pt-12 pb-6 text-left text-xs text-gray-500 space-y-8">
+            {/* AZA-STYLE PRESTIGE FOOTER — Full Bleed */}
+            <footer className="border-t border-[#E5E5E5] bg-[#FAF9F6] text-left text-xs text-gray-500">
+              <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-14 pb-8 space-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="space-y-4">
                   <span className="font-serif text-lg tracking-widest text-[#1A1A1A] font-bold block">ITIN KEITHEL</span>
@@ -2779,6 +2798,7 @@ export default function App()
                   </div>
                   <p className="text-[10px] font-light mt-2">© 2026 Itin Keithel Luxury. Authenticity guaranteed.</p>
                 </div>
+              </div>
               </div>
             </footer>
 

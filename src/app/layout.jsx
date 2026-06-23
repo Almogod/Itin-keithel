@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-[#FAF9F6] text-[#1A1A1A] antialiased">
-        {children}
+        <div className="center-wrapper">
+          {children}
+        </div>
       </body>
     </html>
   );
