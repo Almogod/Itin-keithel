@@ -1,60 +1,136 @@
 # Itin Keithel
 
-An NE-rooted prestige artisan e-commerce prototype — a single-page Next.js experience showcasing handcrafted textiles, heritage woodcarvings, bamboo craft, and other treasures from North East India.
+A premium **artisan marketplace platform** for handcrafted products from **North East India** — Muga silk, Majuli weaves, Sualkuchi textiles, Agartala cane, Mokokchung wood carvings, Naga jewellery, and more. Presented with the polish of a luxury retail experience (Apple × Aesop × Hermès × Tata CliQ Luxury) while remaining unmistakably rooted in NE Indian craft and culture.
 
-The project models a full four-sided marketplace (buyer, vendor, rider, admin) inside one immersive storefront, along with luxury retail flourishes like a hero carousel, hamper builder, GI-tag validator, and virtual stylist booking.
+Itin Keithel is **not one website**. It is a **platform** of independent applications connected to a **single backend** and a **single database**.
 
-## Highlights
+> **Status:** monorepo rebuild in progress. Docs-driven, phased delivery. See [`docs/STATUS.md`](./docs/STATUS.md).
 
-- **Multi-role storefront** — switch between `consumer`, `vendor`, `delivery`, and `admin` views to see the same catalogue from every angle.
-- **Guild-first catalogue** — products are grouped under artisan cooperatives (Majuli Weavers, Sualkuchi Silk, Agartala Cane, Mokokchung Carvers, and more).
-- **Hamper builder** — configure a bamboo/rosewood casket with tea, silk, and jewellery add-ons directly from the cart drawer.
-- **GI-tag validation** — simulated authenticity check for each Geographical Indication tag.
-- **Rider logistics view** — pickup slots, geotagging, delivery confirmation, and live earnings.
-- **Admin control tower** — telemetry feed, price/stock override sync, and banner flash indicators.
-- **Motion & polish** — Framer Motion transitions, GSAP animations, a custom fluid cursor, and Playfair/Outfit/Inter type stack.
+---
 
-## Tech Stack
+## Platform topology
 
-- **Framework:** Next.js 16 (App Router, Webpack dev mode)
-- **UI:** React 19, Tailwind CSS 4, Lucide icons
-- **Animation:** Framer Motion, GSAP
-- **Tooling:** ESLint 9, pnpm
+```
+                       ┌────────────────────────────┐
+   itin-keithel.com ──▶│ apps/web        (Customer) │
+   vendor.…            │ apps/vendor     (Vendor)   │
+   admin.…             │ apps/admin      (Admin)    │
+   support.…           │ apps/support    (Support)  │
+                       └───────────┬────────────────┘
+                                   │  HTTPS (via packages/services)
+                                   ▼
+   api.itin-keithel.com ─── apps/api  (Next.js Route Handlers, later)
+                                   │
+                       MongoDB · VPS FS uploads · Zoho SMTP · Redis · Meilisearch
+```
 
-## Getting Started
+`apps/delivery` is scaffolded as a **placeholder** for a future delivery partner portal.
 
-Install dependencies and start the dev server:
+## Current phase
+
+**Phase 0 — Docs & Alignment ✅** → **Phase 1 — Monorepo Bootstrap** (up next).
+
+## Documentation
+
+All planning lives under [`docs/`](./docs). Read in order:
+
+| Doc | What it covers |
+|---|---|
+| [PRD.md](./docs/PRD.md) | Vision, apps & roles, page inventory per app, signature features, non-goals |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | Turborepo layout, per-app + per-package rationale, service seam, storage, deployment |
+| [DESIGN.md](./docs/DESIGN.md) | Design tokens (palette, typography, motion), component spec (lives in `packages/ui`) |
+| [DATA_MODELS.md](./docs/DATA_MODELS.md) | TypeScript interfaces (all in `packages/types`) — Product, Guild, Order, Ticket, etc. |
+| [ROADMAP.md](./docs/ROADMAP.md) | 10-phase delivery plan with exit criteria per phase |
+| [STATUS.md](./docs/STATUS.md) | Live progress tracker + decisions log |
+
+## Tech stack
+
+**This phase (frontend + shared packages):**
+
+- **Monorepo:** Turborepo + pnpm workspaces
+- **Framework:** Next.js 16 (App Router) · React 19
+- **Language:** TypeScript (strict)
+- **Styling:** Tailwind CSS v4 (design tokens via CSS variables, shared preset)
+- **Motion:** Framer Motion + GSAP
+- **Icons:** lucide-react
+- **Tooling:** ESLint 9 · shared configs · pnpm
+
+**Target full stack (planned — the frontend is architected against this):**
+
+- **Backend:** Next.js Route Handlers in `apps/api` (same monorepo, deployed independently)
+- **Database:** MongoDB + Mongoose
+- **Image storage:** **VPS local filesystem** at `/var/www/itin-keithel/uploads/` — served by Nginx; provider-agnostic storage service so a future swap needs one module changed. **No R2/S3/Firebase/Supabase.**
+- **Email:** Zoho Mail (SMTP)
+- **Deployment:** Ubuntu VPS + Nginx (reverse proxy) + PM2 (per-app processes)
+- **Caching (later):** Redis
+- **Search (later):** Meilisearch or Typesense
+- **Authentication (later):** custom (Route Handler + JWT + refresh in httpOnly cookie). Not implemented in this frontend phase.
+
+Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md).
+
+## Getting started
+
+_Applies once Phase 1 lands. Current repo still hosts the single-file legacy prototype until Phase 1 replaces it._
 
 ```bash
-pnpm install
-pnpm dev
+pnpm install         # installs every workspace
+pnpm dev             # runs all active apps in parallel (turbo)
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
-
-Other scripts:
+Per-app dev:
 
 ```bash
-pnpm build   # production build
-pnpm start   # serve the production build
-pnpm lint    # run ESLint
+pnpm --filter @itin/web dev
+pnpm --filter @itin/vendor dev
+pnpm --filter @itin/admin dev
+pnpm --filter @itin/support dev
+pnpm --filter @itin/api dev
 ```
 
-## Project Structure
+Other root scripts:
 
-```
-src/
-  App.jsx           # the entire storefront (data, state, and views)
-  app/
-    layout.jsx      # root layout, fonts, metadata
-    page.jsx        # client-only shell that mounts <App />
-    globals.css     # Tailwind layer + custom styles
-public/
-  images/           # artisan photography and logo assets
+```bash
+pnpm build           # turbo build across all workspaces
+pnpm lint            # turbo lint
+pnpm typecheck       # turbo typecheck
 ```
 
-`src/App.jsx` is intentionally a single file — it keeps the prototype browsable end-to-end and easy to demo. Data models, role state, and every view live inside it.
+## Project structure (target)
 
-## Notes
+```
+itin-keithel/
+├── apps/
+│   ├── web/            # Customer marketplace
+│   ├── vendor/         # Vendor dashboard
+│   ├── admin/          # Admin control tower
+│   ├── support/        # Customer support workspace
+│   ├── api/            # Next.js backend (Route Handlers) — stubbed this phase
+│   └── delivery/       # Future — placeholder only
+│
+├── packages/
+│   ├── ui/             # Design-system primitives + patterns
+│   ├── types/          # Domain TypeScript interfaces
+│   ├── config/         # Shared runtime config (routes, enums, tokens, Tailwind preset)
+│   ├── eslint-config/  # Shared ESLint preset
+│   ├── tsconfig/       # Shared TS presets (base, nextjs, react-library, node)
+│   ├── utils/          # Framework-agnostic helpers
+│   ├── hooks/          # Shared React hooks
+│   └── services/       # Shared API client / data-access seam (mock today → apps/api later)
+│
+└── docs/               # Planning documents
+```
 
-This is a UI/UX prototype: there is no backend, payments, or persistence. Cart, wishlist, manifests, and telemetry are all in-memory and reset on refresh.
+Full rationale for every app and package: [ARCHITECTURE.md §5](./docs/ARCHITECTURE.md).
+
+## Principles
+
+- **Enterprise from day one** — every folder assumes thousands of vendors and millions of consumers.
+- **One backend, many frontends** — every app renders from shared design system, types, and services.
+- **Culture over decoration** — motifs, palette, and copy reference NE India authentically.
+- **Restraint** — luxury is spacing and hierarchy, not heavy graphics.
+- **Service-layer seam** — UI never imports mock data or MongoDB directly. Swap in the real API without touching components.
+- **In-memory only** for this phase — no `localStorage`, no BaaS.
+
+## Contributing to the rebuild
+
+The rebuild is checkpoint-driven. Each phase in [ROADMAP.md](./docs/ROADMAP.md) has explicit exit criteria; no phase starts until the previous one is reviewed. Update [STATUS.md](./docs/STATUS.md) as work lands.

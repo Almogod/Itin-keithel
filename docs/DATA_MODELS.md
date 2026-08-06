@@ -1,6 +1,6 @@
 # Itin Keithel — Data Models
 
-> TypeScript interface **spec**. This is the contract the mock layer and (later) the REST API must both satisfy. Every interface here maps to a file under `src/types/`.
+> TypeScript interface **spec**. This is the contract the mock layer, every frontend app, and (later) `apps/api` must all satisfy. Every interface here maps to a file under **`packages/types/src/`** so it is imported identically from every workspace as `@itin/types`.
 
 Conventions:
 - All IDs are opaque `string` (UUID-shaped in mock).
@@ -19,13 +19,28 @@ export type Money = number;
 
 export type ISODate = string;
 
+/**
+ * `url` is a RELATIVE path served by Nginx from the VPS filesystem
+ * (see ARCHITECTURE.md §2b — Storage Strategy), e.g.
+ *   "/uploads/products/8f/3a/8f3a1c2e-…/large.webp"
+ * Never store absolute filesystem paths, never store full URLs.
+ * The frontend consumes this field as-is (works with any host / CDN mount).
+ */
 export interface Media {
   id: string;
-  url: string;
+  url: string;              // relative path, e.g. /uploads/<bucket>/<shard>/<uuid>/<size>.webp
   alt: string;
   width: number;
   height: number;
   blurDataURL?: string;
+  // Optional responsive set — populated by the storage service on upload.
+  // Consumers should prefer these when present; fall back to `url` otherwise.
+  sizes?: {
+    thumbnail?: string;
+    medium?: string;
+    large?: string;
+    original?: string;
+  };
 }
 
 export interface Address {
@@ -471,6 +486,64 @@ export interface AdminAnalytics {
 }
 ```
 
+## 17b. Support (Tickets, Complaints, Chat, KB)
+
+Consumed by `apps/support`, `apps/vendor` (messages), and `apps/web` (customer help surfaces).
+
+```ts
+export type TicketStatus = 'OPEN' | 'PENDING_CUSTOMER' | 'PENDING_INTERNAL' | 'RESOLVED' | 'CLOSED';
+export type TicketPriority = 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
+
+export interface Ticket {
+  id: string;
+  code: string;                    // human-friendly, e.g. "TK-2026-0001"
+  subject: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  requesterUserId: string;
+  assigneeAgentId?: string;
+  relatedOrderId?: string;
+  relatedVendorId?: string;
+  tags: string[];
+  createdAt: ISODate;
+  updatedAt: ISODate;
+}
+
+export interface Complaint {
+  id: string;
+  ticketId: string;
+  category: 'DAMAGED' | 'LATE' | 'WRONG_ITEM' | 'AUTHENTICITY' | 'PAYMENT' | 'OTHER';
+  summary: string;
+  attachments?: Media[];
+  createdAt: ISODate;
+}
+
+export interface KBArticle {
+  id: string;
+  slug: string;
+  title: string;
+  body: string;                    // markdown
+  audience: 'CUSTOMER' | 'INTERNAL';
+  tags: string[];
+  publishedAt: ISODate | null;
+  updatedAt: ISODate;
+}
+
+export type ChatMessageAuthor = 'CUSTOMER' | 'AGENT' | 'SYSTEM';
+
+export interface ChatMessage {
+  id: string;
+  threadId: string;                // ties messages into a conversation
+  ticketId?: string;
+  author: ChatMessageAuthor;
+  authorId?: string;
+  body: string;
+  attachments?: Media[];
+  sentAt: ISODate;
+  readAt?: ISODate;
+}
+```
+
 ## 18. API Envelope (for the eventual REST layer)
 
 Mock services return **the unwrapped data** for ergonomic UI code. When we introduce a real API, `lib/http.ts` will unwrap this envelope so **UI signatures don't change**.
@@ -486,28 +559,31 @@ export interface ApiEnvelope<T> {
 
 ## 19. File-to-Type Map
 
+All files live under `packages/types/src/` and are re-exported by `packages/types/src/index.ts` (imported as `@itin/types`).
+
 | File | Exports |
 |---|---|
-| `types/common.ts` | `Money`, `ISODate`, `Media`, `Address`, `Pagination`, `Paginated` |
-| `types/category.ts` | `Category` |
-| `types/guild.ts` | `Guild` |
-| `types/gi.ts` | `GICertificate` |
-| `types/product.ts` | `Product`, `ProductVariant`, `ProductStatus` |
-| `types/artisan.ts` | `Artisan` |
-| `types/collection.ts` | `Collection` |
-| `types/cart.ts` | `Cart`, `CartItem`, `CartTotals` |
-| `types/order.ts` | `Order`, `OrderStatus`, `OrderTimelineEvent`, `PaymentMethod`, `PaymentStatus` |
-| `types/user.ts` | `User`, `UserRole`, `Session` |
-| `types/delivery.ts` | `DeliveryAgent`, `DeliveryStatus` |
-| `types/review.ts` | `Review` |
-| `types/coupon.ts` | `Coupon` |
-| `types/notification.ts` | `Notification`, `NotificationType` |
-| `types/appointment.ts` | `Appointment`, `AppointmentStatus` |
-| `types/hamper.ts` | `Hamper`, `HamperShell`, `HamperItemChoice` |
-| `types/banner.ts` | `Banner` |
-| `types/analytics.ts` | `KPI`, `TimeSeriesPoint`, `VendorAnalytics`, `AdminAnalytics` |
-| `types/api.ts` | `ApiEnvelope` |
-| `types/index.ts` | barrel re-export |
+| `packages/types/src/common.ts` | `Money`, `ISODate`, `Media`, `Address`, `Pagination`, `Paginated` |
+| `packages/types/src/category.ts` | `Category` |
+| `packages/types/src/guild.ts` | `Guild` |
+| `packages/types/src/gi.ts` | `GICertificate` |
+| `packages/types/src/product.ts` | `Product`, `ProductVariant`, `ProductStatus` |
+| `packages/types/src/artisan.ts` | `Artisan` |
+| `packages/types/src/collection.ts` | `Collection` |
+| `packages/types/src/cart.ts` | `Cart`, `CartItem`, `CartTotals` |
+| `packages/types/src/order.ts` | `Order`, `OrderStatus`, `OrderTimelineEvent`, `PaymentMethod`, `PaymentStatus` |
+| `packages/types/src/user.ts` | `User`, `UserRole`, `Session` |
+| `packages/types/src/delivery.ts` | `DeliveryAgent`, `DeliveryStatus` |
+| `packages/types/src/review.ts` | `Review` |
+| `packages/types/src/coupon.ts` | `Coupon` |
+| `packages/types/src/notification.ts` | `Notification`, `NotificationType` |
+| `packages/types/src/appointment.ts` | `Appointment`, `AppointmentStatus` |
+| `packages/types/src/hamper.ts` | `Hamper`, `HamperShell`, `HamperItemChoice` |
+| `packages/types/src/banner.ts` | `Banner` |
+| `packages/types/src/analytics.ts` | `KPI`, `TimeSeriesPoint`, `VendorAnalytics`, `AdminAnalytics` |
+| `packages/types/src/support.ts` | `Ticket`, `TicketStatus`, `TicketPriority`, `Complaint`, `KBArticle`, `ChatMessage` |
+| `packages/types/src/api.ts` | `ApiEnvelope` |
+| `packages/types/src/index.ts` | barrel re-export |
 
 ---
 

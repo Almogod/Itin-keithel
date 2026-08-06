@@ -1,6 +1,8 @@
 # Itin Keithel — Design System
 
-> Visual & interaction language. Every token defined here maps to a CSS variable in `src/styles/tokens.css` and a Tailwind theme entry.
+> Visual & interaction language. **Every token defined here maps to a CSS variable in `packages/config/src/tokens.css`** and a Tailwind theme entry in `packages/config/src/tailwind.preset.ts`. **Every component defined here is implemented in `packages/ui`** and consumed identically by every frontend app (`apps/web`, `apps/vendor`, `apps/admin`, `apps/support`).
+>
+> This makes visual consistency a **structural property** of the platform — a design change lands once and every app updates.
 
 ---
 
@@ -133,7 +135,7 @@ Content max-widths:
 
 ## 9. Component Library (Spec)
 
-Every primitive lives in `src/components/ui/`. Spec below is the **contract** — props may extend, must not contradict.
+Every primitive lives in `packages/ui/src/primitives/`, every composed pattern (ProductCard, CategoryCard, ReviewCard, …) in `packages/ui/src/patterns/`, and every layout primitive in `packages/ui/src/layout/`. Spec below is the **contract** — props may extend, must not contradict.
 
 ### Button
 `variant`: `primary | secondary | ghost | link | destructive`
@@ -189,6 +191,8 @@ Square with `radius-md` for artisans (per guild style), circle for customers.
 Delay 200 ms. Dark on light only (never inverted colours mid-page).
 
 ## 10. Layout Primitives
+
+(All in `packages/ui/src/layout/`.)
 
 - `<Container>` — centered, applies content max-widths (`prose | editorial | content | wide`).
 - `<Section>` — vertical rhythm; `space` prop (`sm | md | lg | xl`).
