@@ -1,110 +1,134 @@
 # Itin Keithel — Roadmap
 
-> Phased delivery plan. Each phase ends at a **checkpoint** where the platform is demoable and reviewable before the next phase begins.
+> Phased delivery plan. Each phase ends at a **checkpoint** where the app is demoable and reviewable before the next phase begins.
+>
+> **Path decision (2026-08-07):** we build a **single Next.js app first**, structured so it maps cleanly onto `apps/web` inside the future Turborepo. All monorepo prep (splitting into `apps/*` and `packages/*`) lands as **Phase M** after Phase 4, when the customer frontend is validated.
 
 ---
 
-## Phase 0 — Docs & Alignment ✅
+## Phase 0 — Docs & Design Alignment ✅
 
-- `docs/PRD.md`, `ARCHITECTURE.md`, `DESIGN.md`, `DATA_MODELS.md`, `ROADMAP.md`, `STATUS.md`
-- Decisions locked: TypeScript, monorepo (Turborepo), pnpm, VPS-local storage, no Auth this phase, Delivery deferred.
-
-Checkpoint: user approves docs.
+- Reference-image analysis complete (9 images).
+- Design philosophy approved: color system, typography, motion, four signature moves (Provenance Card · Chapter PDP · Oversized Marker · Framed Object Hero).
+- Decisions locked: TypeScript strict, pnpm, VPS-local storage, no Auth this phase, Delivery deferred, single-app-now.
+- Docs synced: PRD.md, ARCHITECTURE.md, DESIGN.md, DATA_MODELS.md, ROADMAP.md, STATUS.md.
 
 ---
 
-## Phase 1 — Monorepo Bootstrap
+## Phase 1 — Single-App Foundation
 
-**Goal:** empty-but-correct Turborepo skeleton. No pages yet, but every workspace and shared preset exists.
+**Goal:** TypeScript Next.js app with the approved design tokens, layout primitives, and a Kitchen-Sink route proving every UI primitive.
 
 Scope:
-1. **Delete** the current single-app `src/` (including `App.jsx`, `app/`, `globals.css`).
-2. **Workspace root** — `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `tsconfig.base.json`, `.npmrc`, `.gitignore`.
-3. **`packages/tsconfig`** — base / nextjs / react-library / node presets.
-4. **`packages/eslint-config`** — shared preset.
-5. **`packages/config`** — routes, enums, uploads, env (zod), tokens.css, Tailwind preset.
-6. **`packages/utils`** — cn, currency, date, slugify, motion presets.
-7. **`packages/hooks`** — useMediaQuery, useDebounce, useLockBody, useIntersection, useGsap.
-8. **`packages/types`** — full domain type set per DATA_MODELS.md.
-9. **`packages/ui`** — scaffold with a single `Button` primitive to prove the pipeline.
-10. **`packages/services`** — scaffold with `http.ts` and one service (`products`) in mock mode.
-11. **`apps/web`**, **`apps/vendor`**, **`apps/admin`**, **`apps/support`** — Next.js 16 apps that boot, consume the shared Tailwind preset, and render a placeholder home.
-12. **`apps/api`** — Next.js app that boots and exposes `GET /api/v1/health`.
-13. **`apps/delivery`** — placeholder app with a "Coming Soon" screen.
+1. Delete legacy `src/App.jsx` and clean legacy `globals.css`.
+2. Add `tsconfig.json` (strict). Convert `layout.jsx` / `page.jsx` to `.tsx`. Install `@types/react`, `@types/node`.
+3. Establish target internal structure (single app now, monorepo-ready):
+   ```
+   src/
+   ├── app/            # Next.js routes
+   ├── features/       # feature modules (products, cart, orders, …)
+   ├── components/     # UI primitives + patterns (→ packages/ui later)
+   ├── lib/            # utils, hooks, motion, cn
+   ├── services/       # mock services (→ packages/services later)
+   ├── types/          # domain types (→ packages/types later)
+   ├── config/         # routes, enums (→ packages/config later)
+   └── styles/         # tokens.css, globals.css
+   ```
+4. **`src/styles/tokens.css`** — every color / typography / spacing / radius / shadow / motion token from DESIGN.md as CSS custom properties, plumbed into Tailwind v4 `@theme`.
+5. **`src/styles/globals.css`** — Tailwind entry, base reset, font-face declarations (Fraunces + Inter via `next/font`), scrollbar & selection colors.
+6. **`src/lib/cn.ts`**, **`src/lib/motion.ts`** (Framer presets), **`src/lib/format.ts`** (currency in paise, dates).
+7. **`src/lib/hooks/`** — `useMediaQuery`, `useDebounce`, `useLockBody`, `useIntersection`, `useGsap`.
+8. **`src/types/`** — full domain type set per DATA_MODELS.md.
+9. **`src/config/routes.ts`**, **`src/config/enums.ts`**, **`src/config/site.ts`**.
+10. **`src/components/layout/`** — `Container`, `Section`, `Stack`, `Cluster`, `Grid`.
+11. **`src/components/primitives/`** — `Button`, `Badge`, `Divider`, `Hairline`, `Eyebrow`, `Marker` (Oversized Marker), `MetaTable` (Provenance Card scaffold), `Skeleton`, `Icon` (lucide wrapper), `Input`, `Select`, `Checkbox`, `Radio`, `Accordion`.
+12. **`src/components/motion/`** — `FadeIn`, `Reveal`, `StaggerList`, `PageTransition`.
+13. **`app/dev/kitchen-sink/page.tsx`** — internal route rendering every primitive, every variant, with keyboard smoke test.
 
 Exit criteria:
-- `pnpm install` and `pnpm build` succeed at the root.
-- `pnpm dev` runs all five active apps in parallel (`web`, `vendor`, `admin`, `support`, `api`) on distinct ports.
-- Every app renders the shared `Button` from `packages/ui` on its home page.
-- `pnpm lint` and `pnpm typecheck` clean.
+- `pnpm dev` runs a clean Next.js 16 app on `http://localhost:3000`.
+- Kitchen-sink renders every primitive; keyboard tab-order works; `prefers-reduced-motion` respected.
+- Zero `any`. Zero inline styles. Zero hex outside tokens.css.
+- `pnpm lint` clean.
 
-Checkpoint: user reviews scaffold.
+Checkpoint: user reviews Kitchen Sink.
 
 ---
 
-## Phase 2 — Design System (`packages/ui`)
+## Phase 2 — Chrome (Nav + Footer)
 
-**Goal:** every reusable UI primitive and pattern exists in `packages/ui`, is styled, and is demonstrated in a **`apps/web/dev/kitchen-sink`** route (dev-only).
+**Goal:** the two elements that appear on every page.
 
-Primitives: `Button`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `Card`, `Modal`, `Drawer`, `Toast`, `Tabs`, `Accordion`, `Breadcrumb`, `Badge`, `Avatar`, `Tooltip`, `Skeleton`, `RatingStars`, `Price`, `GITag`, `EmptyState`, `ErrorState`.
-
-Patterns: `ProductCard`, `CategoryCard`, `ReviewCard`, `GuildCard`, `OrderRow`.
-
-Layout primitives: `Container`, `Section`, `Grid`, `Stack`, `Cluster`.
-
-Motion primitives: `<FadeIn>`, `<Reveal>`, `<StaggerList>`, page transitions.
+- Editorial header: centered Fraunces wordmark, slim category strip on scroll, cart & search icons, mobile drawer.
+- Footer: newsletter (one line, ghost button), sitemap, cultural attribution ("Rooted in Manipur · Woven by Guilds"), fine print.
+- Skip-to-content link, focus rings visible.
 
 Exit criteria:
-- Kitchen sink renders all variants of every component.
-- Keyboard / screen-reader smoke test passes.
-- Motion respects `prefers-reduced-motion`.
-
-Checkpoint: user reviews design system.
+- Header and Footer render across every existing route.
+- Mobile drawer traps focus and returns focus on close.
 
 ---
 
-## Phase 3 — Mock Data & Services (`packages/services`)
+## Phase 3 — Mock Data & Services
 
-**Goal:** realistic seeded catalogue + service functions the apps will call.
+**Goal:** realistic seeded catalog + typed service functions.
 
-Deliverables:
-- Mock data under `packages/services/src/mock/`:
-  - ≥ 60 products across ≥ 8 categories and ≥ 6 guilds
-  - ≥ 30 reviews, ≥ 8 collections, ≥ 4 banners, ≥ 8 users, ≥ 5 coupons
-  - ≥ 20 orders across statuses, ≥ 4 delivery agents, ≥ 10 GI certificates, ≥ 5 appointments
-  - ≥ 10 support tickets, ≥ 20 messages
-- Full set of `services/*.service.ts` per ARCHITECTURE.md §6 — including `support.service.ts` (tickets, kb).
+- Mock data under `src/services/mock/`:
+  - ≥ 24 products across ≥ 6 categories and ≥ 4 guilds
+  - ≥ 12 reviews, ≥ 4 collections, ≥ 3 banners, ≥ 6 users, ≥ 3 coupons
+  - ≥ 10 orders across statuses, ≥ 6 GI certificates, ≥ 3 appointments
+- Service functions per file: `products`, `categories`, `guilds`, `orders`, `cart`, `users`, `reviews`, `banners`, `notifications`, `appointments`, `search`.
+- All async, all typed, all mock-mode with 120–300ms artificial delay.
 
 Exit criteria:
-- Any app can `await getProducts()` and receive typed, paginated data.
-- No app imports from `mock/` directly.
+- Any page can `await getProducts()` and receive typed, paginated data.
+- No page imports from `mock/` directly.
 
 ---
 
-## Phase 4 — Customer App (`apps/web`)
+## Phase 4 — Customer App Pages (in order)
 
-Pages, in build order:
-1. **Landing** — hero, featured collections, guild spotlight, editorial strips, seasonal edit, testimonials, newsletter.
-2. **Collections** listing → detail.
-3. **Categories** grid → detail.
-4. **PLP** with filter drawer, sort, quick-view.
-5. **PDP** — gallery, variant selector, GI badge, artisan story, reviews, related.
-6. **Search** — instant results, trending, empty state.
-7. **Wishlist**.
-8. **Cart** — drawer + full page.
-9. **Checkout** — 3-step (address → delivery → payment).
-10. **Order Success**.
-11. **Order History** + single order detail.
-12. **Profile** + **Settings**.
-13. **Authentication** — login, signup, forgot-password (UI shells only; no logic).
+Build order matches the user directive (development order 10 → 20):
+
+1. **Landing** — Framed Object hero, The Living Craft, Guild Spotlight, The Edit (3 products), Craft Journal strip, Provenance & GI, Categories 3-up, Newsletter.
+2. **Categories** — grid → detail.
+3. **Collections** — list → detail.
+4. **PLP** — filter sidebar (desktop) / drawer (mobile), 3-up grid, text sort, numeric pagination.
+5. **PDP** — full Chapter PDP (all four signature moves).
+6. **Wishlist**.
+7. **Cart** — drawer + full page.
+8. **Checkout** — 3-step (address → delivery → payment). UI only.
+9. **Order Success**.
+10. **Order History** + single order detail.
+11. **Profile** + **Settings**.
+12. **Authentication** — login / signup / forgot-password (UI shells only).
+13. **Search** — instant results, trending, empty state.
 14. **Static Pages** — About, Story, Sustainability, Craft Journal, Contact, FAQ, Terms, Privacy, Shipping, Returns.
 15. **404 / 500 / Coming Soon**.
 
 Exit criteria:
 - End-to-end mock journey: browse → PDP → cart → checkout → success → history.
-- All pages responsive down to 360 px.
+- All pages responsive down to 360px.
+- Every PDP expresses all four signature moves.
 
-Checkpoint: user reviews consumer experience.
+Checkpoint: user reviews the consumer experience.
+
+---
+
+## Phase M — Monorepo Split (after Phase 4)
+
+Land after the customer app is validated. Zero UX change.
+
+- Introduce Turborepo + pnpm workspaces at the root.
+- Move `src/` into `apps/web/`.
+- Extract shared code into `packages/ui`, `packages/types`, `packages/config`, `packages/utils`, `packages/hooks`, `packages/services`, `packages/tsconfig`, `packages/eslint-config`.
+- Scaffold `apps/vendor`, `apps/admin`, `apps/support`, `apps/api`, `apps/delivery` (Coming Soon).
+- `apps/api` gets `GET /api/v1/health` only.
+
+Exit criteria:
+- `pnpm dev` runs all active apps in parallel on distinct ports.
+- `pnpm build`, `pnpm lint`, `pnpm typecheck` clean.
+- Consumer app renders identically to Phase 4 output.
 
 ---
 
@@ -187,6 +211,7 @@ Exit criteria:
 
 - Phases 1–3 are **not user-facing** but are the highest-leverage work. Ship them tightly.
 - Phase 4 is the single largest block; sub-checkpoint after PLP + PDP.
+- **Phase M (Monorepo split) lands after Phase 4** — customer app is validated first, then extracted.
 - Phases 5–7 share a "portal shell" — build the shell once inside `packages/ui` and reuse.
 - Phase 8 features touch multiple apps; land after 4–7 to avoid rework.
 - Phase 9 is small but proves the whole architecture works end-to-end.

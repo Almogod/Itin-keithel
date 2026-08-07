@@ -1,0 +1,135 @@
+/* ==========================================================================
+   ITIN KEITHEL — DESIGN TOKENS
+   Single source of truth. Approved 2026-08-07. See docs/DESIGN.md.
+   No component may hard-code a hex; every color, size, and motion value
+   originates here.
+   ========================================================================== */
+
+:root {
+  /* ---------------- COLOR ---------------- */
+  /* Base */
+  --color-canvas: #F7F4EE;          /* Rice Paper */
+  --color-frame: #E9E1D2;           /* Muga Silk */
+  --color-muted: #8A8377;           /* Kauna Reed */
+
+  /* Ink scale (derived from Loktak Ink) */
+  --color-ink: #141312;             /* Loktak Ink — primary */
+  --color-ink-900: #141312;
+  --color-ink-700: #2A2724;
+  --color-ink-500: #5A544C;
+  --color-ink-300: #A19A8E;
+  --color-ink-100: #E9E1D2;
+
+  /* Character (voice) */
+  --color-vermilion: #B23A2C;       /* Manipur Vermilion */
+  --color-vermilion-hover: #8F2E23;
+
+  /* Action (purchase) */
+  --color-action: #2E4A3B;          /* Ereima Green */
+  --color-action-hover: #253C30;
+
+  /* Editorial framing accent */
+  --color-indigo: #22314A;          /* Loktak Indigo */
+
+  /* System */
+  --color-success: #2E4A3B;
+  --color-warn: #B78418;
+  --color-danger: #8B2C2C;
+  --color-focus: #B23A2C;
+
+  /* Surfaces */
+  --surface-canvas: var(--color-canvas);
+  --surface-frame: var(--color-frame);
+  --surface-lifted: #FBF8F2;
+
+  /* ---------------- TYPOGRAPHY ---------------- */
+  /* Font families are set via next/font in layout.tsx and exposed as CSS vars */
+  --font-display: var(--font-fraunces, 'Fraunces', 'Georgia', serif);
+  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif);
+
+  /* Fluid type scale */
+  --text-marker: clamp(4rem, 12vw, 9rem);
+  --text-display-xl: clamp(3rem, 7vw, 6rem);
+  --text-display-lg: clamp(2.25rem, 5vw, 4rem);
+  --text-display-md: clamp(1.75rem, 3.5vw, 2.75rem);
+  --text-h1: 2.25rem;
+  --text-h2: 1.75rem;
+  --text-h3: 1.375rem;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.75rem;
+
+  --leading-marker: 0.95;
+  --leading-display: 1.08;
+  --leading-heading: 1.25;
+  --leading-body: 1.6;
+  --leading-tight: 1.4;
+
+  --tracking-caption: 0.08em;
+
+  /* ---------------- SPACING ---------------- */
+  --space-0-5: 0.125rem;   /* 2  */
+  --space-1:   0.25rem;    /* 4  */
+  --space-2:   0.5rem;     /* 8  */
+  --space-3:   0.75rem;    /* 12 */
+  --space-4:   1rem;       /* 16 */
+  --space-6:   1.5rem;     /* 24 */
+  --space-8:   2rem;       /* 32 */
+  --space-12:  3rem;       /* 48 */
+  --space-16:  4rem;       /* 64 */
+  --space-24:  6rem;       /* 96 — museum breath */
+  --space-32:  8rem;       /* 128 */
+  --space-40:  10rem;      /* 160 */
+
+  /* Max widths */
+  --width-prose: 68ch;
+  --width-editorial: 780px;
+  --width-content: 1180px;
+  --width-wide: 1440px;
+  --width-outer-gutter: 88px;
+  --width-outer-gutter-mobile: 20px;
+
+  /* ---------------- RADII / BORDERS / SHADOWS ---------------- */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --radius-button: 6px;
+
+  --border-hairline: 1px;
+  --border-input: 1px;
+
+  --shadow-soft: 0 1px 2px rgba(20, 19, 18, 0.04), 0 8px 24px rgba(20, 19, 18, 0.05);
+  --shadow-lifted: 0 12px 40px rgba(20, 19, 18, 0.08);
+
+  /* ---------------- MOTION ---------------- */
+  --motion-instant: 120ms;
+  --motion-quick: 200ms;
+  --motion-base: 320ms;
+  --motion-editorial: 600ms;
+  --motion-scroll: 800ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ---------------- CHROME ---------------- */
+  --header-height: 72px;
+  --header-height-scrolled: 60px;
+  --z-header: 40;
+  --z-drawer: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-instant: 60ms;
+    --motion-quick: 90ms;
+    --motion-base: 120ms;
+    --motion-editorial: 120ms;
+    --motion-scroll: 120ms;
+  }
+}

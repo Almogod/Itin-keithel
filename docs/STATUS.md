@@ -4,93 +4,65 @@
 
 **Legend:** ✅ done · 🟡 in progress · ⬜ not started · ⛔ blocked
 
-**Last updated:** 2026-08-06
+**Last updated:** 2026-08-07
 
 ---
 
-## Phase 1 — Monorepo Bootstrap
+## Phase 0 — Docs & Design Alignment ✅
 
-- ⬜ Delete legacy `src/` (App.jsx, app/, globals.css)
-- ⬜ Workspace root — `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `tsconfig.base.json`, `.npmrc`, `.gitignore`
-- ⬜ `packages/tsconfig` (base / nextjs / react-library / node)
-- ⬜ `packages/eslint-config`
-- ⬜ `packages/config` (routes, enums, uploads, env, tokens.css, tailwind.preset)
-- ⬜ `packages/utils` (cn, currency, date, slugify, motion presets)
-- ⬜ `packages/hooks` (useMediaQuery, useDebounce, useLockBody, useIntersection, useGsap)
-- ⬜ `packages/types` (full domain set per DATA_MODELS.md)
-- ⬜ `packages/ui` scaffold + `Button` primitive
-- ⬜ `packages/services` scaffold + `products.service.ts` in mock mode
-- ⬜ `apps/web` — boots, renders shared `Button`
-- ⬜ `apps/vendor` — boots
-- ⬜ `apps/admin` — boots
-- ⬜ `apps/support` — boots
-- ⬜ `apps/api` — boots + `/api/v1/health`
-- ⬜ `apps/delivery` — "Coming Soon" placeholder
-- ⬜ `pnpm dev` runs all five active apps on distinct ports
-- ⬜ Root `build`, `lint`, `typecheck` clean
+- ✅ Reference-image analysis (9 images inspected)
+- ✅ Design philosophy approved (six laws, four signature moves)
+- ✅ Color system locked (Rice Paper · Loktak Ink · Kauna Reed · Muga Silk · Manipur Vermilion · Ereima Green · Loktak Indigo)
+- ✅ Typography locked (Fraunces display · Inter sans)
+- ✅ DESIGN.md rewritten to reflect approval
+- ✅ PRD.md · ROADMAP.md · STATUS.md synced to new decisions
 
-## Phase 2 — Design System (`packages/ui`)
+## Phase 1 — Single-App Foundation
 
-### Primitives
-- ⬜ `Button`
-- ⬜ `Input` / `Textarea` / `Select`
-- ⬜ `Checkbox` / `Radio` / `Switch`
-- ⬜ `Card`
-- ⬜ `Modal` / `Drawer`
-- ⬜ `Toast`
-- ⬜ `Tabs`
-- ⬜ `Accordion`
-- ⬜ `Breadcrumb`
-- ⬜ `Badge`
-- ⬜ `Avatar`
-- ⬜ `Tooltip`
-- ⬜ `Skeleton`
-- ⬜ `RatingStars`
-- ⬜ `Price`
-- ⬜ `GITag`
-- ⬜ `EmptyState` / `ErrorState`
+- 🟡 Delete legacy `src/App.jsx` and legacy `globals.css`
+- 🟡 Add `tsconfig.json` (strict) + convert `layout` / `page` to `.tsx`
+- 🟡 Install `@types/react`, `@types/node`
+- ⬜ `src/styles/tokens.css` — CSS custom properties for every design token
+- ⬜ `src/styles/globals.css` — Tailwind v4 entry, font-face via `next/font`
+- ⬜ `src/lib/cn.ts`, `src/lib/motion.ts`, `src/lib/format.ts`
+- ⬜ `src/lib/hooks/` — `useMediaQuery`, `useDebounce`, `useLockBody`, `useIntersection`, `useGsap`
+- ⬜ `src/types/` — full domain type set
+- ⬜ `src/config/` — routes, enums, site config
+- ⬜ `src/components/layout/` — `Container`, `Section`, `Stack`, `Cluster`, `Grid`
+- ⬜ `src/components/primitives/` — `Button`, `Badge`, `Divider`, `Hairline`, `Eyebrow`, `Marker`, `MetaTable`, `Skeleton`, `Icon`, `Input`, `Select`, `Checkbox`, `Radio`, `Accordion`
+- ⬜ `src/components/motion/` — `FadeIn`, `Reveal`, `StaggerList`, `PageTransition`
+- ⬜ `app/dev/kitchen-sink/page.tsx`
 
-### Patterns
-- ⬜ `ProductCard`
-- ⬜ `CategoryCard`
-- ⬜ `ReviewCard`
-- ⬜ `GuildCard`
-- ⬜ `OrderRow`
+## Phase 2 — Chrome
 
-### Layout & Motion
-- ⬜ `Container`, `Section`, `Grid`, `Stack`, `Cluster`
-- ⬜ `<FadeIn>`, `<Reveal>`, `<StaggerList>`, page transition primitive
+- ⬜ Header (centered serif wordmark, slim category strip on scroll, cart & search)
+- ⬜ Mobile drawer (focus trap, escape to close)
+- ⬜ Footer (newsletter, sitemap, cultural attribution)
+- ⬜ Skip-to-content link
 
-### Demo
-- ⬜ `apps/web/dev/kitchen-sink`
+## Phase 3 — Mock Data & Services
 
-## Phase 3 — Mock Data & Services (`packages/services`)
+- ⬜ `services/mock/categories.ts`
+- ⬜ `services/mock/guilds.ts`
+- ⬜ `services/mock/artisans.ts`
+- ⬜ `services/mock/products.ts` (≥ 24)
+- ⬜ `services/mock/collections.ts`
+- ⬜ `services/mock/reviews.ts`
+- ⬜ `services/mock/users.ts`
+- ⬜ `services/mock/orders.ts`
+- ⬜ `services/mock/coupons.ts`
+- ⬜ `services/mock/gi.ts`
+- ⬜ `services/mock/banners.ts`
+- ⬜ `services/mock/appointments.ts`
+- ⬜ Service functions (`products`, `categories`, `guilds`, `orders`, `cart`, `users`, `reviews`, `banners`, `notifications`, `appointments`, `search`)
 
-- ⬜ `mock/categories.ts`
-- ⬜ `mock/guilds.ts`
-- ⬜ `mock/artisans.ts`
-- ⬜ `mock/products.ts` (≥ 60)
-- ⬜ `mock/collections.ts`
-- ⬜ `mock/reviews.ts`
-- ⬜ `mock/users.ts`
-- ⬜ `mock/orders.ts`
-- ⬜ `mock/deliveryAgents.ts`
-- ⬜ `mock/coupons.ts`
-- ⬜ `mock/gi.ts`
-- ⬜ `mock/banners.ts`
-- ⬜ `mock/appointments.ts`
-- ⬜ `mock/tickets.ts`
-- ⬜ `mock/messages.ts`
-- ⬜ Full `services/*.service.ts` set (products, categories, guilds, vendors, orders, cart, users, reviews, coupons, banners, notifications, appointments, search, media, support)
-
-## Phase 4 — Customer App (`apps/web`)
+## Phase 4 — Customer App Pages
 
 - ⬜ Landing
-- ⬜ Collections (list + detail)
 - ⬜ Categories (grid + detail)
+- ⬜ Collections (list + detail)
 - ⬜ PLP
-- ⬜ PDP
-- ⬜ Search
+- ⬜ PDP (all 4 signature moves)
 - ⬜ Wishlist
 - ⬜ Cart (drawer + page)
 - ⬜ Checkout (3-step)
@@ -99,58 +71,42 @@
 - ⬜ Profile
 - ⬜ Settings
 - ⬜ Authentication (login / signup / forgot — UI only)
+- ⬜ Search
 - ⬜ Static Pages (About, Story, Sustainability, Craft Journal, Contact, FAQ, Terms, Privacy, Shipping, Returns)
 - ⬜ 404 / 500 / Coming Soon
+
+## Phase M — Monorepo Split
+
+- ⬜ Turborepo + pnpm workspaces at root
+- ⬜ Move `src/` → `apps/web/`
+- ⬜ Extract `packages/{ui,types,config,utils,hooks,services,tsconfig,eslint-config}`
+- ⬜ Scaffold `apps/{vendor,admin,support,api,delivery}`
 
 ## Phase 5 — Vendor Portal (`apps/vendor`)
 
 - ⬜ Portal shell (sidebar + top bar)
-- ⬜ Dashboard
-- ⬜ Orders
-- ⬜ Products
-- ⬜ Inventory
-- ⬜ Analytics
-- ⬜ Reviews
-- ⬜ Messages
-- ⬜ Profile
-- ⬜ Settings
+- ⬜ Dashboard, Orders, Products, Inventory, Analytics, Reviews, Messages, Profile, Settings
 
 ## Phase 6 — Admin Portal (`apps/admin`)
 
 - ⬜ Portal shell
-- ⬜ Dashboard
-- ⬜ Analytics
-- ⬜ Orders
-- ⬜ Products
-- ⬜ Vendor Management
-- ⬜ Customer Management
-- ⬜ Banner Management
-- ⬜ Categories
-- ⬜ Guild Management
-- ⬜ Reports
-- ⬜ Site Settings
+- ⬜ Dashboard, Analytics, Orders, Products, Vendor Management, Customer Management, Banner Management, Categories, Guild Management, Reports, Site Settings
 
 ## Phase 7 — Support Portal (`apps/support`)
 
 - ⬜ Portal shell
-- ⬜ Customer Lookup
-- ⬜ Orders
-- ⬜ Refunds
-- ⬜ Complaints
-- ⬜ Tickets
-- ⬜ Live Chat UI
-- ⬜ Knowledge Base
+- ⬜ Customer Lookup, Orders, Refunds, Complaints, Tickets, Live Chat UI, Knowledge Base
 
 ## Phase 8 — Signature Features
 
 - ⬜ Hamper Builder (in `apps/web`)
-- ⬜ Virtual Stylist Booking (in `apps/web` + surfaces in `apps/vendor`)
+- ⬜ Virtual Stylist Booking
 - ⬜ GI-Tag Verify modal on PDP
 
 ## Phase 9 — `apps/api` Stub Hardening
 
 - ⬜ `/api/v1/health`
-- ⬜ Route Handler skeletons per resource (return `NOT_IMPLEMENTED`)
+- ⬜ Route Handler skeletons per resource
 - ⬜ zod schemas per endpoint
 - ⬜ `NEXT_PUBLIC_MOCK=0` toggle proves wire without breaking UI
 
@@ -199,6 +155,12 @@
 | 2026-08-06 | **Deferred: `apps/delivery`** — placeholder only ("Coming Soon") | Reserves workspace path for future team |
 | 2026-08-06 | Shared packages: `ui`, `types`, `config`, `eslint-config`, `tsconfig`, `utils`, `hooks`, `services` | Enforced consistency across apps |
 | 2026-08-06 | Frontend apps talk to `apps/api` via `packages/services` — HTTP hop even for Server Components | Rewrites earlier "no HTTP hop" note; now correct for separate deployables |
+| **2026-08-07** | **Design language approved** — Rice Paper canvas, Loktak Ink, Kauna Reed, Muga Silk, Manipur Vermilion (voice), Ereima Green (action), Loktak Indigo (editorial). Fraunces display + Inter sans. | Distilled from reference-image analysis; museum-first / editorial-second / boutique-third |
+| **2026-08-07** | **Four signature moves** — Provenance Card, Chapter PDP, Oversized Marker, Framed Object Hero | Every PDP must express all four |
+| **2026-08-07** | **Single-app now, monorepo later (Phase M)** — build `src/` in monorepo-ready shape, extract after Phase 4 validates the customer app | Fastest path to a working frontend; monorepo migration is a Phase-M move |
+| **2026-08-07** | **Fonts via `next/font`** — Fraunces (display) + Inter (sans), self-hosted, no Google Fonts network hit | Perf + privacy |
+| **2026-08-07** | **Icons: lucide-react at stroke 1.25** | Matches editorial serif weight |
+| **2026-08-07** | **No dark patterns** — no countdowns, no scarcity nudges, no discount stickers, no wishlist-heart-cart-badge overload | Locked; violations trigger design review |
 
 ## Open blockers
 

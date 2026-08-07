@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@source "../**/*.{ts,tsx}";
+
+/* ==========================================================================
+   TAILWIND v4 THEME — tokens exposed as utilities
+   ========================================================================== */
+@theme {
+  /* Colors — plumb every token into Tailwind so classes stay declarative */
+  --color-canvas: #F7F4EE;
+  --color-frame: #E9E1D2;
+  --color-muted: #8A8377;
+  --color-ink: #141312;
+  --color-ink-900: #141312;
+  --color-ink-700: #2A2724;
+  --color-ink-500: #5A544C;
+  --color-ink-300: #A19A8E;
+  --color-ink-100: #E9E1D2;
+  --color-vermilion: #B23A2C;
+  --color-vermilion-hover: #8F2E23;
+  --color-action: #2E4A3B;
+  --color-action-hover: #253C30;
+  --color-indigo: #22314A;
+  --color-success: #2E4A3B;
+  --color-warn: #B78418;
+  --color-danger: #8B2C2C;
+
+  /* Fonts */
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Type scale */
+  --text-marker: clamp(4rem, 12vw, 9rem);
+  --text-display-xl: clamp(3rem, 7vw, 6rem);
+  --text-display-lg: clamp(2.25rem, 5vw, 4rem);
+  --text-display-md: clamp(1.75rem, 3.5vw, 2.75rem);
+
+  /* Spacing extensions (Tailwind's default 0.25rem base fits our scale) */
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-40: 10rem;
+
+  /* Container widths */
+  --container-prose: 68ch;
+  --container-editorial: 780px;
+  --container-content: 1180px;
+  --container-wide: 1440px;
+
+  /* Radii */
+  --radius-button: 6px;
+
+  /* Motion */
+  --animate-fade-in: fade-in var(--motion-base) var(--ease-standard);
+  --animate-rise: rise var(--motion-editorial) var(--ease-standard);
+
+  /* Shadows */
+  --shadow-soft: 0 1px 2px rgba(20, 19, 18, 0.04), 0 8px 24px rgba(20, 19, 18, 0.05);
+  --shadow-lifted: 0 12px 40px rgba(20, 19, 18, 0.08);
+
+  /* Breakpoints (kept default; overrides only when needed) */
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(200%);  }
+}
+
+@keyframes drawer-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0);    }
+}
+
+@keyframes drawer-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0);     }
+}
+
+/* ==========================================================================
+   RESET + BASE
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Long-form reading defaults */
+p { line-height: var(--leading-body); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.005em; }
+
+button { font-family: inherit; }
+
+/* Numeric = tabular */
+.tabular, .price, time, .num { font-variant-numeric: tabular-nums; }
+
+/* Selection */
+::selection {
+  background: var(--color-vermilion);
+  color: var(--color-canvas);
+}
+
+/* Scrollbar (kept minimal + warm) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-canvas); }
+::-webkit-scrollbar-thumb { background: var(--color-ink-300); border-radius: var(--radius-full); border: 2px solid var(--color-canvas); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* Focus ring — always Vermilion, always visible */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip link */
+.skip-to-content {
+  position: absolute;
+  left: 50%;
+  top: -100px;
+  transform: translateX(-50%);
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  z-index: 999;
+  transition: top var(--motion-quick) var(--ease-standard);
+}
+.skip-to-content:focus { top: var(--space-4); }
+
+/* Hide scrollbar on decorative horizontal strips */
+.scrollbar-invisible {
+  scrollbar-width: none;
+}
+.scrollbar-invisible::-webkit-scrollbar { display: none; }
+
+/* Image treatment */
+img { max-width: 100%; height: auto; display: block; }
+
+/* Reduce motion — override transforms/animations to opacity-only */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 120ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility: hairline divider */
+.hairline {
+  height: 1px;
+  background: var(--color-ink-100);
+  border: 0;
+  margin: 0;
+}
+.hairline-vermilion {
+  height: 1px;
+  background: var(--color-vermilion);
+  border: 0;
+  margin: 0;
+}
+
+/* Utility: small caps (used by Eyebrow, MetaTable labels) */
+.small-caps {
+  font-variant: all-small-caps;
+  letter-spacing: var(--tracking-caption);
+  font-weight: 500;
+}

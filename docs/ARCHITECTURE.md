@@ -1,6 +1,8 @@
 # Itin Keithel — Architecture
 
 > Enterprise architecture reference. Read alongside [PRD.md](./PRD.md), [DESIGN.md](./DESIGN.md), and [DATA_MODELS.md](./DATA_MODELS.md).
+>
+> **Path (2026-08-07):** the **target** architecture below is a Turborepo monorepo with 5 apps + 8 packages. The **current phase** ships a **single Next.js app** at the repo root, structured internally so it maps 1:1 into `apps/web` when the monorepo is extracted (see [ROADMAP.md — Phase M](./ROADMAP.md)). Every folder in `src/` corresponds to a future package (`src/components` → `packages/ui`, `src/services` → `packages/services`, `src/types` → `packages/types`, `src/config` → `packages/config`, `src/lib` → `packages/utils` + `packages/hooks`, `src/styles/tokens.css` → `packages/config/tokens.css`).
 
 ---
 
@@ -8,7 +10,7 @@
 
 Itin Keithel is not a website. It is a **platform** of independent applications backed by a **single API** and a **single database**, deployed on a single VPS today and horizontally on multiple VPS nodes tomorrow. Every application in the platform is built from the same shared design system, types, and services — so consistency is a structural guarantee, not a discipline.
 
-The entire system lives in **one monorepo** (Turborepo) so that:
+The entire system will live in **one monorepo** (Turborepo) once Phase M lands so that:
 - A design change lands once and every app sees it.
 - A type change forces every consumer to compile against the new shape.
 - Independent apps can still be **deployed independently** with different domains, uptimes, and scaling profiles.

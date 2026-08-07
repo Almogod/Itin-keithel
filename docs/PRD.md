@@ -1,28 +1,37 @@
 # Itin Keithel — Product Requirements Document (PRD)
 
-> **Version:** 0.2 (Multi-app monorepo, frontend-only phase)
+> **Version:** 0.3 (Design language approved · single-app-now, monorepo-later)
 > **Owner:** Aakash
-> **Last updated:** 2026-08-06
+> **Last updated:** 2026-08-07
 > **Status:** Living document — updated as scope evolves
 
 ---
 
 ## 1. Vision
 
-**Itin Keithel** is a premium artisan marketplace showcasing handcrafted products from **North East India**. It positions heritage crafts — Muga silk, Majuli weaves, Sualkuchi textiles, Agartala cane, Mokokchung wood carvings, Naga jewellery — inside a **luxury retail experience** comparable in polish to **Apple, Aesop, Hermès, Tata CliQ Luxury**, while remaining unmistakably **North East Indian** in identity.
+**Itin Keithel** is a premium artisan marketplace showcasing the living crafts of **Manipur** (and, over time, the wider North East). It positions heritage crafts — Meitei phanek weaves, Longpi pottery, Kauna reed craft, cane and bamboo, muga silks, Loktak-lake wood, Naga jewellery — inside an experience that reads more like a **museum, an editorial magazine, and a boutique** than an ecommerce site.
 
-The product treats artisans as first-class citizens (through **Artisan Guilds** and **GI-tag** authenticity), not faceless suppliers.
+The three moods, in strict order, are:
+1. **Museum first** — the object is a specimen, framed and captioned.
+2. **Editorial magazine second** — long-form storytelling. Every product is a piece with a village, a weaver, a dye source, a season.
+3. **Boutique third** — purchase is invited quietly. Commerce disappears until the visitor wants it.
 
-Itin Keithel is **not one website**. It is a **platform** — multiple independent applications connected to one backend and one MongoDB database. See [ARCHITECTURE.md](./ARCHITECTURE.md) for the topology.
+Reference constellation: **Aesop · Officine Universelle Buly · MoMA Store · a printed exhibition catalog** — not Amazon, not Shopify, not Fabindia.
+
+The product treats artisans as first-class citizens (through **Artisan Guilds**, **GI-tag** authenticity, and the **Provenance Card** on every product) — not faceless suppliers.
+
+Itin Keithel is **not one website**. It is a **platform** — multiple independent applications connected to one backend and one MongoDB database (see [ARCHITECTURE.md](./ARCHITECTURE.md)) — although the current phase ships a single Next.js app whose internal structure is designed to migrate cleanly into that monorepo later.
 
 ## 2. Guiding Principles
 
-1. **Culture over decoration** — motifs, palette, typography, and copy must reference NE India authentically; never touristy or clichéd.
-2. **Restraint** — luxury is spacing, hierarchy, and micro-interactions, not heavy graphics or excessive animation.
-3. **Trust** — GI-tag validation, guild provenance, and artisan stories are as important as the products themselves.
-4. **Enterprise from day one** — architecture must survive thousands of vendors and millions of consumers. No shortcut is worth a refactor cycle.
-5. **One backend, many frontends** — every app renders from the same design system, the same types, and the same API. Consistency is structural, not a discipline.
-6. **Desktop-first, fully responsive** — laptop, tablet, mobile all first-class.
+1. **The object earns the room.** If a pixel does not serve the craft, remove it. See [DESIGN.md §2](./DESIGN.md).
+2. **Culture over decoration** — motifs, palette, typography, and copy must reference Manipur authentically; never touristy, never pan-Asian clichéd.
+3. **Restraint** — luxury is spacing, hierarchy, and micro-interactions, not heavy graphics or excessive animation.
+4. **Trust** — GI-tag validation, guild provenance, and artisan stories are structurally more important than promo copy.
+5. **Enterprise from day one** — architecture must survive thousands of vendors and millions of consumers. No shortcut is worth a refactor cycle.
+6. **One backend, many frontends** — every app renders from the same design system, the same types, and the same API. Consistency is structural, not a discipline.
+7. **Desktop-first, fully responsive** — laptop, tablet, mobile all first-class.
+8. **No dark patterns.** No countdowns, no fake scarcity, no discount stickers, no "someone in Delhi just bought this" nudges.
 
 ## 3. Applications & Roles
 
@@ -101,12 +110,15 @@ Auth is **deferred**. Frontend renders auth screens as UI shells only; no sessio
 
 ## 5. Signature Features (Beyond Standard E-com)
 
-- **Artisan Guilds** — every product is affiliated to a guild with a public profile.
-- **GI-Tag Validation** — visible authenticity indicator with a "verify" flow.
-- **Hamper Builder** — configure a bamboo/rosewood casket with tea, silk, and jewellery add-ons.
-- **Virtual Stylist Booking** — appointment scheduling for high-value silks/jewellery.
+- **The Provenance Card** — a meta table on every product: Artisan · Village · Craft · Fibre · Days-to-make · Year · GI code. Right-aligned values, small-caps labels. This is our credibility signature.
+- **The Chapter PDP** — the product page is an essay in four chapters: *The Object · The Maker · The Craft · Care & Living*. Each opens with an Oversized Marker (a single serif word/number set very large).
+- **The Framed Object Hero** — the object floats inside a colored vitrine frame set within the page, echoing museum display.
+- **Artisan Guilds** — every product is affiliated to a guild with a public profile and portrait photography.
+- **GI-Tag Validation** — visible authenticity indicator with a "verify" flow linking to the registry.
+- **Hamper Builder** — configure a bamboo / rosewood / cane **casket** (Assamese heritage term) with tea, silk, and jewellery add-ons.
+- **Virtual Stylist Booking** — appointment scheduling for high-value silks / jewellery.
 - **Guild-first Discovery** — browse by cooperative, not only by category.
-- **Storytelling Blocks** — long-form artisan features embedded across the site.
+- **Craft Journal** — long-form editorial essays on techniques, seasons, and makers.
 
 ## 6. Non-Goals (This Phase)
 
@@ -122,13 +134,14 @@ Auth is **deferred**. Frontend renders auth screens as UI shells only; no sessio
 ## 7. Success Criteria
 
 The frontend phase is done when:
-1. Every page in §4 renders inside its own app with realistic mock data via `packages/services`.
-2. A senior engineer can swap `packages/services` from mock mode to real HTTP against `apps/api` **without touching UI components**.
-3. All four active frontends (`web`, `vendor`, `admin`, `support`) share `packages/ui`, `packages/types`, `packages/config`, `packages/utils`, `packages/hooks`.
-4. Lighthouse a11y & best-practices ≥ 90 on the top consumer pages.
-5. All routes fully responsive (≥ 360 px width up to 1920 px).
-6. Zero `any` in TypeScript, zero inline styles, zero hard-coded design tokens outside `packages/config`.
-7. Any duplicated component or type across apps triggers a design-review — the fix is always "promote to a package."
+1. Every page in §4 renders with realistic mock data via `src/services/*` (single-app phase) or `packages/services` (monorepo phase).
+2. A senior engineer can swap `services` from mock mode to real HTTP against `apps/api` **without touching UI components**.
+3. All UI is driven by tokens in `src/styles/tokens.css` — **zero hex values in components**. When monorepo lands, tokens promote to `packages/config` unchanged.
+4. Lighthouse **accessibility ≥ 95** and best-practices ≥ 90 on the top consumer pages.
+5. All routes fully responsive (≥ 360px width up to 1920px). PDP switches from 7/5 split to stacked below `md`.
+6. **Zero `any`** in TypeScript, **zero inline styles**, zero hard-coded design tokens outside the tokens file.
+7. Every product page expresses all four signature moves (Provenance Card · Chapter PDP · Oversized Marker · Framed Object Hero).
+8. `prefers-reduced-motion` is honored on every animated surface.
 
 ## 8. Out-of-Scope but Planned (Future Phases)
 
