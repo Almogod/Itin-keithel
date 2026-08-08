@@ -3,20 +3,20 @@ import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Hairline } from '@/components/primitives/Hairline';
-import { journalApi } from '@/services';
+import { getJournalArticle } from '@/services';
 import { formatDate } from '@/lib/format';
 
 interface Props { params: Promise<{ slug: string }>; }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const a = journalApi.bySlug(slug);
+  const a = await getJournalArticle(slug);
   return { title: a ? a.title : 'Journal' };
 }
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const a = journalApi.bySlug(slug);
+  const a = await getJournalArticle(slug);
   if (!a) notFound();
 
   return (

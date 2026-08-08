@@ -4,12 +4,12 @@ import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/primitives/Button';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Badge } from '@/components/primitives/Badge';
-import { usersApi } from '@/services';
+import { getCurrentUser } from '@/services';
 
 export const metadata = { title: 'Profile' };
 
-export default function ProfilePage() {
-  const user = usersApi.current();
+export default async function ProfilePage() {
+  const user = await getCurrentUser();
   return (
     <div className="flex flex-col gap-12">
       <section>

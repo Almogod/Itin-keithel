@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { useLockBody } from '@/lib/hooks/useLockBody';
+import { useFocusTrap } from '@/lib/hooks/useFocusTrap';
 import { cn } from '@/lib/cn';
 
 export interface ModalProps {
@@ -19,6 +20,7 @@ const SIZE = { sm: 'max-w-md', md: 'max-w-xl', lg: 'max-w-3xl' };
 
 export function Modal({ open, onClose, title, children, size = 'md', className }: ModalProps) {
   useLockBody(open);
+  const panelRef = useFocusTrap<HTMLDivElement>(open);
 
   useEffect(() => {
     if (!open) return;
@@ -35,11 +37,12 @@ export function Modal({ open, onClose, title, children, size = 'md', className }
         onClick={onClose}
       />
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
         className={cn(
-          'relative w-full bg-canvas rounded-lg shadow-lifted',
+          'relative w-full bg-canvas rounded-lg shadow-lifted outline-none',
           'animate-[rise_320ms_cubic-bezier(0.2,0,0,1)]',
           SIZE[size],
           className,

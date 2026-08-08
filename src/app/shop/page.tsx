@@ -3,13 +3,13 @@ import { Section } from '@/components/layout/Section';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Breadcrumb } from '@/components/primitives/Breadcrumb';
 import { ProductGrid } from '@/components/patterns/ProductGrid';
-import { productsApi } from '@/services';
+import { getProducts } from '@/services';
 import { ROUTES } from '@/config/routes';
 
 export const metadata = { title: 'Shop · All Pieces' };
 
-export default function ShopPage() {
-  const products = productsApi.all();
+export default async function ShopPage() {
+  const { items: products } = await getProducts({ pageSize: 100 });
   return (
     <Section space="xl">
       <Container size="wide">

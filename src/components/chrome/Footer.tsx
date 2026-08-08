@@ -56,12 +56,23 @@ export function Footer() {
 
         <hr className="hairline" />
 
-        <div className="py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-[0.75rem] text-muted">
-          <p>
-            © {new Date().getFullYear()} {SITE.name}. Made in Imphal · shipped worldwide.
+        <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-center md:text-left">
+          <p className="small-caps text-[0.7rem] text-vermilion tracking-[0.18em]">
+            Rooted in Manipur · Woven by Guilds
           </p>
-          <p className="max-w-lg text-right">
-            We honour the makers of Manipur. Every price includes a direct share to the guild.
+          <p className="text-[0.75rem] text-muted max-w-lg md:text-right">
+            Every price includes a direct share to the guild. Shipped from Imphal, folded with tissue.
+          </p>
+        </div>
+
+        <hr className="hairline" />
+
+        <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-[0.75rem] text-muted">
+          <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+          <p>
+            <a href={SITE.social.instagram} target="_blank" rel="noreferrer" className="hover:text-vermilion transition-colors">
+              Instagram
+            </a>
           </p>
         </div>
       </Container>

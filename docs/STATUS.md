@@ -4,7 +4,7 @@
 
 **Legend:** ✅ done · 🟡 in progress · ⬜ not started · ⛔ blocked
 
-**Last updated:** 2026-08-07
+**Last updated:** 2026-08-08
 
 ---
 
@@ -17,44 +17,79 @@
 - ✅ DESIGN.md rewritten to reflect approval
 - ✅ PRD.md · ROADMAP.md · STATUS.md synced to new decisions
 
-## Phase 1 — Single-App Foundation
+## Phase 1 — Single-App Foundation ✅
 
-- 🟡 Delete legacy `src/App.jsx` and legacy `globals.css`
-- 🟡 Add `tsconfig.json` (strict) + convert `layout` / `page` to `.tsx`
-- 🟡 Install `@types/react`, `@types/node`
-- ⬜ `src/styles/tokens.css` — CSS custom properties for every design token
-- ⬜ `src/styles/globals.css` — Tailwind v4 entry, font-face via `next/font`
-- ⬜ `src/lib/cn.ts`, `src/lib/motion.ts`, `src/lib/format.ts`
-- ⬜ `src/lib/hooks/` — `useMediaQuery`, `useDebounce`, `useLockBody`, `useIntersection`, `useGsap`
-- ⬜ `src/types/` — full domain type set
-- ⬜ `src/config/` — routes, enums, site config
-- ⬜ `src/components/layout/` — `Container`, `Section`, `Stack`, `Cluster`, `Grid`
-- ⬜ `src/components/primitives/` — `Button`, `Badge`, `Divider`, `Hairline`, `Eyebrow`, `Marker`, `MetaTable`, `Skeleton`, `Icon`, `Input`, `Select`, `Checkbox`, `Radio`, `Accordion`
-- ⬜ `src/components/motion/` — `FadeIn`, `Reveal`, `StaggerList`, `PageTransition`
-- ⬜ `app/dev/kitchen-sink/page.tsx`
+- ✅ Legacy `src/App.jsx` and legacy `globals.css` removed (clean `src/` tree)
+- ✅ `tsconfig.json` (strict, `noUncheckedIndexedAccess`, `noImplicitOverride`) + `layout.tsx` / `page.tsx`
+- ✅ `@types/react`, `@types/node`, `@types/react-dom` installed
+- ✅ `src/styles/tokens.css` — full color / type / spacing / radius / shadow / motion token set
+- ✅ `src/styles/globals.css` — Tailwind v4 `@theme`, `next/font` (Fraunces + Inter), scrollbar/selection, reset
+- ✅ `src/lib/cn.ts`, `src/lib/motion.ts` (framer presets), `src/lib/format.ts` (paise + dates)
+- ✅ `src/lib/hooks/` — `useMediaQuery`, `useDebounce`, `useLockBody`, `useIntersection`, `useGsap`, `useScrollDirection` + barrel `index.ts`
+- ✅ `src/types/index.ts` — full domain type set per DATA_MODELS.md (Product, Order, Cart, User, Artisan, Coupon, Notification, Appointment, Hamper, Ticket, Complaint, KBArticle, ChatMessage, Analytics, `ApiEnvelope<T>`, …)
+- ✅ `src/config/` — `routes.ts`, `enums.ts`, `site.ts`
+- ✅ `src/components/layout/` — `Container`, `Section`, `Stack`, `Cluster`, `Grid`, `Frame` + barrel
+- ✅ `src/components/primitives/` — `Accordion`, `Avatar`, `Badge`, `Breadcrumb`, `Button`, `Checkbox`, `Divider`, `Drawer`, `Eyebrow`, `Hairline`, `Icon`, `Input`, `Marker`, `MetaTable`, `Modal`, `Radio`, `Select`, `Skeleton`, `Switch`, `Tabs`, `Textarea`, `Toast`, `Tooltip` + barrel
+- ✅ `src/components/motion/` — `FadeIn`, `Reveal`, `StaggerList` (+ `StaggerItem`), `PageTransition` + barrel
+- ✅ `app/dev/kitchen-sink/page.tsx` — every primitive, every variant, live overlays & toast triggers
 
-## Phase 2 — Chrome
+**Exit-criteria run (2026-08-08):**
+- `pnpm lint` — clean
+- `npx tsc --noEmit` — clean
+- `pnpm build` — clean (20 routes prerendered incl. `/dev/kitchen-sink`)
 
-- ⬜ Header (centered serif wordmark, slim category strip on scroll, cart & search)
-- ⬜ Mobile drawer (focus trap, escape to close)
-- ⬜ Footer (newsletter, sitemap, cultural attribution)
-- ⬜ Skip-to-content link
+## Phase 2 — Chrome ✅
 
-## Phase 3 — Mock Data & Services
+- ✅ Header — centered Fraunces wordmark, slim category strip appears on scroll, cart + search + account utilities (`src/components/chrome/Header.tsx`)
+- ✅ Mobile drawer — left-side `Drawer`, Escape to close, focus trap + focus return via new `useFocusTrap` (`src/components/chrome/MobileNav.tsx`)
+- ✅ Footer — one-line newsletter, three sitemap columns, "Rooted in Manipur · Woven by Guilds" attribution, guild-share line, © + social (`src/components/chrome/Footer.tsx`)
+- ✅ Skip-to-content link rendered in `RootLayout`; visible on `:focus`
 
-- ⬜ `services/mock/categories.ts`
-- ⬜ `services/mock/guilds.ts`
-- ⬜ `services/mock/artisans.ts`
-- ⬜ `services/mock/products.ts` (≥ 24)
-- ⬜ `services/mock/collections.ts`
-- ⬜ `services/mock/reviews.ts`
-- ⬜ `services/mock/users.ts`
-- ⬜ `services/mock/orders.ts`
-- ⬜ `services/mock/coupons.ts`
-- ⬜ `services/mock/gi.ts`
-- ⬜ `services/mock/banners.ts`
-- ⬜ `services/mock/appointments.ts`
-- ⬜ Service functions (`products`, `categories`, `guilds`, `orders`, `cart`, `users`, `reviews`, `banners`, `notifications`, `appointments`, `search`)
+**Extras landed:** `useFocusTrap` hook applied to both `Drawer` and `Modal` (Phase 1 primitives now meet WCAG 2.2 AA focus management).
+
+**Exit-criteria run (2026-08-08):**
+- Header + Footer render on every route via `src/app/layout.tsx`
+- Drawer / Modal trap Tab / Shift+Tab and restore focus to trigger on close
+- `pnpm lint` · `tsc --noEmit` · `pnpm build` — all clean (20 routes)
+
+## Phase 3 — Mock Data & Services ✅
+
+**Mock data (all ≥ roadmap floors):**
+- ✅ `services/mock/categories.ts` — 6 categories
+- ✅ `services/mock/guilds.ts` — 4 guilds
+- ✅ `services/mock/artisans.ts` — 6 artisans
+- ✅ `services/mock/products.ts` — 26 products across 6 categories / 4 guilds
+- ✅ `services/mock/collections.ts` — 4 collections (Muga, Longpi Table, Ceremonial Phanek, Loktak Kauna)
+- ✅ `services/mock/reviews.ts` — 13 reviews across 10 products
+- ✅ `services/mock/users.ts` — 6 users
+- ✅ `services/mock/orders.ts` — 10 orders spanning every `OrderStatus`
+- ✅ `services/mock/coupons.ts` — 4 coupons (percent / flat / free-shipping / guild-share)
+- ✅ `services/mock/gi.ts` — 6 GI certificates
+- ✅ `services/mock/banners.ts` — 4 banners covering every slot (`HOME_HERO`, `HOME_STRIP`, `CATEGORY_HEAD`, `PDP_SIDE`)
+- ✅ `services/mock/appointments.ts` — 4 stylist appointments
+- ✅ `services/mock/notifications.ts` — 3 notifications
+
+**Service functions — all async, all typed, 120–300ms artificial delay in dev:**
+- ✅ Products — `getProducts` (paginated + `categorySlug` / `guildSlug` / `collectionSlug` / `sort`), `getProduct`, `getFeaturedProducts`, `getRelatedProducts`, `getProductSlugs`
+- ✅ Categories — `getCategories`, `getCategory`, `getCategorySlugs`
+- ✅ Guilds — `getGuilds`, `getGuild`, `getGuildById`, `getSpotlightGuild`, `getGuildSlugs`
+- ✅ Artisans — `getArtisans`, `getArtisan`, `getArtisansInGuild`
+- ✅ Collections — `getCollections`, `getCollection`, `getFeaturedCollection`
+- ✅ Reviews — `getReviewsForProduct` (paginated), `getAllReviews`
+- ✅ Users — `getCurrentUser`, `getUser`
+- ✅ Orders — `getOrdersForUser` (paginated), `getOrder`
+- ✅ Banners — `getBannersForSlot`
+- ✅ Notifications — `getNotificationsForUser`, `getAllNotifications`
+- ✅ Appointments — `getAppointmentsForUser`, `getAllAppointments`
+- ✅ Coupons — `getCoupons`, `applyCoupon`
+- ✅ GI — `getGICertificates`, `verifyGICertificate`
+- ✅ Journal — `getJournal` (paginated), `getLatestJournal`, `getJournalArticle`, `getJournalSlugs`
+- ✅ Search — `searchProducts(query, limit)` returns typed `SearchResults` (products + categories + guilds), plus `getSearchIndex`
+
+**Exit-criteria run (2026-08-08):**
+- Every consuming page (16 in total, incl. `AccountLayout`) is now `async` and `await`s the new API
+- No page imports from `services/mock/` directly
+- `pnpm lint` · `tsc --noEmit` · `pnpm build` — all clean (20 routes)
 
 ## Phase 4 — Customer App Pages
 
@@ -161,6 +196,9 @@
 | **2026-08-07** | **Fonts via `next/font`** — Fraunces (display) + Inter (sans), self-hosted, no Google Fonts network hit | Perf + privacy |
 | **2026-08-07** | **Icons: lucide-react at stroke 1.25** | Matches editorial serif weight |
 | **2026-08-07** | **No dark patterns** — no countdowns, no scarcity nudges, no discount stickers, no wishlist-heart-cart-badge overload | Locked; violations trigger design review |
+| **2026-08-08** | **Phase 1 complete** — Kitchen Sink live at `/dev/kitchen-sink`; lint + tsc + build all clean | Ready for Phase 2 (Chrome) |
+| **2026-08-08** | **Phase 2 complete** — Header + Footer + MobileNav shipped; `useFocusTrap` hook added and applied to `Drawer` + `Modal` | Ready for Phase 3 (Mock Data & Services) |
+| **2026-08-08** | **Phase 3 complete** — Async, typed, paginated service layer; five new mock modules (artisans / coupons / gi / appointments / notifications); every page migrated to `await`. `Order.courier` added to types to match DATA_MODELS.md. | Ready for Phase 4 (Customer App Pages) |
 
 ## Open blockers
 

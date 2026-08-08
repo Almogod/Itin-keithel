@@ -3,7 +3,7 @@ import { Hairline } from '@/components/primitives/Hairline';
 import { Badge } from '@/components/primitives/Badge';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Stack } from '@/components/layout/Stack';
-import { ordersApi } from '@/services';
+import { getOrder } from '@/services';
 import { formatDate, formatPrice } from '@/lib/format';
 
 interface Props {
@@ -23,7 +23,7 @@ const LABEL = {
 
 export default async function OrderDetailPage({ params }: Props) {
   const { code } = await params;
-  const order = ordersApi.byCode(code);
+  const order = await getOrder(code);
   if (!order) notFound();
 
   return (

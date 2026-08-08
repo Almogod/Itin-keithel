@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { useLockBody } from '@/lib/hooks/useLockBody';
+import { useFocusTrap } from '@/lib/hooks/useFocusTrap';
 import { cn } from '@/lib/cn';
 
 export interface DrawerProps {
@@ -26,6 +27,7 @@ export function Drawer({
   className,
 }: DrawerProps) {
   useLockBody(open);
+  const panelRef = useFocusTrap<HTMLElement>(open);
 
   useEffect(() => {
     if (!open) return;
@@ -34,7 +36,7 @@ export function Drawer({
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  const panelBase = 'absolute top-0 bottom-0 bg-canvas shadow-lifted flex flex-col';
+  const panelBase = 'absolute top-0 bottom-0 bg-canvas shadow-lifted flex flex-col outline-none';
   const panelSide =
     side === 'right'
       ? 'right-0 animate-[drawer-in-right_320ms_cubic-bezier(0.2,0,0,1)]'
@@ -45,6 +47,7 @@ export function Drawer({
     <div className="fixed inset-0 z-[60]">
       <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm animate-[fade-in_200ms_ease-out]" onClick={onClose} />
       <aside
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}

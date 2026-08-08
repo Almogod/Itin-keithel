@@ -1,27 +1,31 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Input } from '@/components/primitives/Input';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { ProductGrid } from '@/components/patterns/ProductGrid';
-import { productsApi } from '@/services';
+import { searchProducts } from '@/services';
+import { useDebounce } from '@/lib/hooks';
+import type { Product } from '@/types';
 
 export default function SearchPage() {
   const [q, setQ] = useState('');
-  const products = useMemo(() => {
-    if (!q.trim()) return productsApi.all().slice(0, 6);
-    const s = q.toLowerCase();
-    return productsApi.all().filter(
-      (p) =>
-        p.title.toLowerCase().includes(s) ||
-        p.provenance.artisan.toLowerCase().includes(s) ||
-        p.provenance.village.toLowerCase().includes(s) ||
-        p.tags.some((t) => t.toLowerCase().includes(s)),
-    );
-  }, [q]);
+  const debouncedQ = useDebounce(q, 200);
+  const [products, setProducts] = useState<Product[]>([]);
+  const isSearching = q !== debouncedQ;
+
+  useEffect(() => {
+    let cancelled = false;
+    searchProducts(debouncedQ).then((results) => {
+      if (!cancelled) setProducts(results.products);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQ]);
 
   return (
     <Section space="xl">
@@ -39,6 +43,9 @@ export default function SearchPage() {
             onChange={(e) => setQ(e.target.value)}
             leading={<SearchIcon size={18} strokeWidth={1.25} />}
           />
+          <p className="mt-3 small-caps text-[0.7rem] text-muted">
+            {isSearching ? 'Searching…' : products.length + ' pieces'}
+          </p>
         </div>
         <ProductGrid products={products} />
       </Container>

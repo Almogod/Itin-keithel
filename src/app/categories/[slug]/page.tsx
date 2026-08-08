@@ -5,7 +5,7 @@ import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Hairline } from '@/components/primitives/Hairline';
 import { Breadcrumb } from '@/components/primitives/Breadcrumb';
 import { ProductGrid } from '@/components/patterns/ProductGrid';
-import { categoriesApi, productsApi } from '@/services';
+import { getCategory, getProducts } from '@/services';
 import { ROUTES } from '@/config/routes';
 
 interface Props {
@@ -14,17 +14,17 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const category = categoriesApi.bySlug(slug);
+  const category = await getCategory(slug);
   if (!category) return { title: 'Category' };
   return { title: category.name };
 }
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const category = categoriesApi.bySlug(slug);
+  const category = await getCategory(slug);
   if (!category) notFound();
 
-  const products = productsApi.byCategory(category.id);
+  const { items: products } = await getProducts({ categorySlug: slug, pageSize: 100 });
 
   return (
     <>

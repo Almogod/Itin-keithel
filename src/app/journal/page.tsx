@@ -4,14 +4,14 @@ import { Section } from '@/components/layout/Section';
 import { Grid } from '@/components/layout/Grid';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
-import { journalApi } from '@/services';
+import { getJournal } from '@/services';
 import { ROUTES } from '@/config/routes';
 import { formatDate } from '@/lib/format';
 
 export const metadata = { title: 'Craft Journal' };
 
-export default function JournalPage() {
-  const articles = journalApi.all();
+export default async function JournalPage() {
+  const { items: articles } = await getJournal({ pageSize: 100 });
   return (
     <Section space="xl">
       <Container size="wide">

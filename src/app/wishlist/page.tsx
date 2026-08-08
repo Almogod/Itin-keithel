@@ -2,12 +2,12 @@ import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { ProductGrid } from '@/components/patterns/ProductGrid';
-import { productsApi } from '@/services';
+import { getProducts } from '@/services';
 
 export const metadata = { title: 'Wishlist' };
 
-export default function WishlistPage() {
-  const products = productsApi.all().slice(0, 4);
+export default async function WishlistPage() {
+  const { items: products } = await getProducts({ pageSize: 4 });
   return (
     <Section space="xl">
       <Container size="wide">

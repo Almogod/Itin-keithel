@@ -3,12 +3,12 @@ import { Grid } from '@/components/layout/Grid';
 import { Frame } from '@/components/layout/Frame';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { OrderRow } from '@/components/patterns/OrderRow';
-import { ordersApi, usersApi } from '@/services';
+import { getCurrentUser, getOrdersForUser } from '@/services';
 import { ROUTES } from '@/config/routes';
 
-export default function AccountPage() {
-  const user = usersApi.current();
-  const orders = ordersApi.byUser(user.id).slice(0, 3);
+export default async function AccountPage() {
+  const user = await getCurrentUser();
+  const { items: orders } = await getOrdersForUser(user.id, { pageSize: 3 });
 
   return (
     <div className="flex flex-col gap-12">

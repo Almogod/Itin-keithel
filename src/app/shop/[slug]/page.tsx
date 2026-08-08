@@ -11,7 +11,7 @@ import { ProductCard } from '@/components/patterns/ProductCard';
 import { ReviewCard } from '@/components/patterns/ReviewCard';
 import { Gallery } from '@/features/pdp/Gallery';
 import { BuyBox } from '@/features/pdp/BuyBox';
-import { productsApi, guildsApi, reviewsApi } from '@/services';
+import { getGuildById, getProduct, getRelatedProducts, getReviewsForProduct } from '@/services';
 import { ROUTES } from '@/config/routes';
 import { pad } from '@/lib/format';
 
@@ -21,18 +21,21 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const product = productsApi.bySlug(slug);
+  const product = await getProduct(slug);
   return { title: product ? product.title : 'Product' };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = productsApi.bySlug(slug);
+  const product = await getProduct(slug);
   if (!product) notFound();
 
-  const guild = guildsApi.byId(product.guildId);
-  const related = productsApi.related(product);
-  const reviews = reviewsApi.byProduct(product.id);
+  const [guild, related, reviewsPage] = await Promise.all([
+    getGuildById(product.guildId),
+    getRelatedProducts(product),
+    getReviewsForProduct(product.id),
+  ]);
+  const reviews = reviewsPage.items;
   const firstName = product.provenance.artisan.split(' ')[0] ?? product.provenance.artisan;
   const craftName = product.provenance.craft.split(' ')[0] ?? product.provenance.craft;
 

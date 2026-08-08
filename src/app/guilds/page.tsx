@@ -3,12 +3,12 @@ import { Section } from '@/components/layout/Section';
 import { Grid } from '@/components/layout/Grid';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { GuildCard } from '@/components/patterns/GuildCard';
-import { guildsApi } from '@/services';
+import { getGuilds } from '@/services';
 
 export const metadata = { title: 'Guilds' };
 
-export default function GuildsPage() {
-  const guilds = guildsApi.all();
+export default async function GuildsPage() {
+  const guilds = await getGuilds();
   return (
     <Section space="xl">
       <Container size="wide">

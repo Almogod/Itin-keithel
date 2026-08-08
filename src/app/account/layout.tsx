@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Avatar } from '@/components/primitives/Avatar';
-import { usersApi } from '@/services';
+import { getCurrentUser } from '@/services';
 import { ROUTES } from '@/config/routes';
 
 const NAV = [
@@ -15,8 +15,8 @@ const NAV = [
   { href: ROUTES.SETTINGS, label: 'Settings' },
 ];
 
-export default function AccountLayout({ children }: { children: ReactNode }) {
-  const user = usersApi.current();
+export default async function AccountLayout({ children }: { children: ReactNode }) {
+  const user = await getCurrentUser();
   return (
     <Section space="lg">
       <Container size="wide">

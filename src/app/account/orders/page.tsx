@@ -1,11 +1,11 @@
 import { OrderRow } from '@/components/patterns/OrderRow';
-import { ordersApi, usersApi } from '@/services';
+import { getCurrentUser, getOrdersForUser } from '@/services';
 
 export const metadata = { title: 'Orders' };
 
-export default function OrdersPage() {
-  const user = usersApi.current();
-  const orders = ordersApi.byUser(user.id);
+export default async function OrdersPage() {
+  const user = await getCurrentUser();
+  const { items: orders } = await getOrdersForUser(user.id, { pageSize: 100 });
   return (
     <div>
       <h2 className="font-display text-[1.75rem] text-ink mb-8">All orders</h2>

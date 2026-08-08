@@ -6,23 +6,23 @@ import { Eyebrow } from '@/components/primitives/Eyebrow';
 import { Breadcrumb } from '@/components/primitives/Breadcrumb';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { ProductCard } from '@/components/patterns/ProductCard';
-import { guildsApi, productsApi } from '@/services';
+import { getGuild, getProducts } from '@/services';
 import { ROUTES } from '@/config/routes';
 
 interface Props { params: Promise<{ slug: string }>; }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const g = guildsApi.bySlug(slug);
+  const g = await getGuild(slug);
   return { title: g ? g.name : 'Guild' };
 }
 
 export default async function GuildPage({ params }: Props) {
   const { slug } = await params;
-  const guild = guildsApi.bySlug(slug);
+  const guild = await getGuild(slug);
   if (!guild) notFound();
 
-  const products = productsApi.byGuild(guild.id);
+  const { items: products } = await getProducts({ guildSlug: slug, pageSize: 100 });
 
   return (
     <>

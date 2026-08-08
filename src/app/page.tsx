@@ -11,16 +11,26 @@ import { ProductCard } from '@/components/patterns/ProductCard';
 import { CategoryCard } from '@/components/patterns/CategoryCard';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { Reveal } from '@/components/motion/Reveal';
-import { bannersApi, categoriesApi, guildsApi, journalApi, productsApi } from '@/services';
+import {
+  getBannersForSlot,
+  getCategories,
+  getFeaturedProducts,
+  getLatestJournal,
+  getSpotlightGuild,
+} from '@/services';
 import { ROUTES } from '@/config/routes';
 import { formatDate } from '@/lib/format';
 
-export default function HomePage() {
-  const hero = bannersApi.bySlot('HOME_HERO')[0];
-  const spotlight = guildsApi.spotlight();
-  const featured = productsApi.featured(3);
-  const journal = journalApi.latest(2);
-  const categories = categoriesApi.all().slice(0, 3);
+export default async function HomePage() {
+  const [heroes, spotlight, featured, journal, allCategories] = await Promise.all([
+    getBannersForSlot('HOME_HERO'),
+    getSpotlightGuild(),
+    getFeaturedProducts(3),
+    getLatestJournal(2),
+    getCategories(),
+  ]);
+  const hero = heroes[0];
+  const categories = allCategories.slice(0, 3);
 
   return (
     <>

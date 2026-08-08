@@ -4,13 +4,13 @@ import { Grid } from '@/components/layout/Grid';
 import { ChapterMarker } from '@/components/patterns/ChapterMarker';
 import { CategoryCard } from '@/components/patterns/CategoryCard';
 import { Breadcrumb } from '@/components/primitives/Breadcrumb';
-import { categoriesApi } from '@/services';
+import { getCategories } from '@/services';
 import { ROUTES } from '@/config/routes';
 
 export const metadata = { title: 'Categories · By Craft' };
 
-export default function CategoriesPage() {
-  const cats = categoriesApi.all();
+export default async function CategoriesPage() {
+  const cats = await getCategories();
   return (
     <Section space="xl">
       <Container size="wide">

@@ -204,6 +204,7 @@ export interface Order {
   shippingAddress: Address;
   billingAddress: Address;
   payment: { method: PaymentMethod; status: PaymentStatus; transactionId?: string };
+  courier?: { provider: string; trackingNumber: string; riderId?: string };
   placedAt: ISODate;
   expectedDeliveryAt: ISODate;
   deliveredAt?: ISODate;
@@ -263,4 +264,221 @@ export interface JournalArticle {
   author: string;
   publishedAt: ISODate;
   readMinutes: number;
+}
+
+/* -------- Artisan -------- */
+
+export interface Artisan {
+  id: string;
+  slug: string;
+  name: string;
+  guildId: string;
+  role: string;
+  yearsOfCraft: number;
+  bio: string;
+  portrait: Media;
+  location: string;
+}
+
+/* -------- Session -------- */
+
+export interface Session {
+  user: User;
+  role: UserRole;
+  issuedAt: ISODate;
+  expiresAt: ISODate;
+}
+
+/* -------- Delivery Agent -------- */
+
+export type DeliveryStatus = 'AVAILABLE' | 'ON_PICKUP' | 'ON_DELIVERY' | 'OFFLINE';
+
+export interface DeliveryAgent {
+  id: string;
+  fullName: string;
+  phone: string;
+  avatar?: Media;
+  vehicle: { type: 'BIKE' | 'VAN'; number: string };
+  serviceRegion: string[];
+  status: DeliveryStatus;
+  rating: number;
+  earningsThisWeek: Money;
+  activeOrderIds: string[];
+}
+
+/* -------- Coupon -------- */
+
+export interface Coupon {
+  id: string;
+  code: string;
+  description: string;
+  type: 'PERCENT' | 'FLAT' | 'FREE_SHIPPING';
+  value: number;
+  minSubtotal?: Money;
+  maxDiscount?: Money;
+  appliesTo: {
+    categoryIds?: string[];
+    productIds?: string[];
+    guildIds?: string[];
+  };
+  usageLimitPerUser?: number;
+  validFrom: ISODate;
+  validTill: ISODate;
+  isActive: boolean;
+}
+
+/* -------- Notification -------- */
+
+export type NotificationType =
+  | 'ORDER_UPDATE'
+  | 'PRICE_DROP'
+  | 'BACK_IN_STOCK'
+  | 'GUILD_STORY'
+  | 'PROMO'
+  | 'SYSTEM';
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  href?: string;
+  isRead: boolean;
+  createdAt: ISODate;
+}
+
+/* -------- Appointment (Virtual Stylist) -------- */
+
+export type AppointmentStatus = 'REQUESTED' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
+
+export interface Appointment {
+  id: string;
+  userId: string;
+  stylistName: string;
+  categoryFocus: string;
+  scheduledAt: ISODate;
+  durationMinutes: number;
+  mode: 'VIDEO' | 'IN_STORE';
+  status: AppointmentStatus;
+  notes?: string;
+}
+
+/* -------- Hamper (Gift Builder) -------- */
+
+export type HamperShell = 'BAMBOO' | 'ROSEWOOD' | 'CANE';
+
+export interface HamperItemChoice {
+  productId: string;
+  variantId: string;
+  quantity: number;
+}
+
+export interface Hamper {
+  id: string;
+  shell: HamperShell;
+  ribbonColor: 'MUGA' | 'LAC' | 'IVORY' | 'INDIGO';
+  giftNote?: string;
+  items: HamperItemChoice[];
+  totals: CartTotals;
+  createdAt: ISODate;
+}
+
+/* -------- Analytics -------- */
+
+export interface TimeSeriesPoint {
+  at: ISODate;
+  value: number;
+}
+
+export interface KPI {
+  key: string;
+  label: string;
+  value: number;
+  unit?: 'INR' | 'COUNT' | 'PERCENT';
+  deltaPct?: number;
+  series?: TimeSeriesPoint[];
+}
+
+export interface VendorAnalytics {
+  vendorId: string;
+  kpis: KPI[];
+  topProducts: Array<{ productId: string; units: number; revenue: Money }>;
+  funnel: { views: number; addToCart: number; checkout: number; purchased: number };
+}
+
+export interface AdminAnalytics {
+  platformKpis: KPI[];
+  topGuilds: Array<{ guildId: string; revenue: Money }>;
+  topCategories: Array<{ categoryId: string; revenue: Money }>;
+  ordersByStatus: Record<OrderStatus, number>;
+}
+
+/* -------- Support (Tickets, Complaints, Chat, KB) -------- */
+
+export type TicketStatus =
+  | 'OPEN'
+  | 'PENDING_CUSTOMER'
+  | 'PENDING_INTERNAL'
+  | 'RESOLVED'
+  | 'CLOSED';
+
+export type TicketPriority = 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
+
+export interface Ticket {
+  id: string;
+  code: string;
+  subject: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  requesterUserId: string;
+  assigneeAgentId?: string;
+  relatedOrderId?: string;
+  relatedVendorId?: string;
+  tags: string[];
+  createdAt: ISODate;
+  updatedAt: ISODate;
+}
+
+export interface Complaint {
+  id: string;
+  ticketId: string;
+  category: 'DAMAGED' | 'LATE' | 'WRONG_ITEM' | 'AUTHENTICITY' | 'PAYMENT' | 'OTHER';
+  summary: string;
+  attachments?: Media[];
+  createdAt: ISODate;
+}
+
+export interface KBArticle {
+  id: string;
+  slug: string;
+  title: string;
+  body: string;
+  audience: 'CUSTOMER' | 'INTERNAL';
+  tags: string[];
+  publishedAt: ISODate | null;
+  updatedAt: ISODate;
+}
+
+export type ChatMessageAuthor = 'CUSTOMER' | 'AGENT' | 'SYSTEM';
+
+export interface ChatMessage {
+  id: string;
+  threadId: string;
+  ticketId?: string;
+  author: ChatMessageAuthor;
+  authorId?: string;
+  body: string;
+  attachments?: Media[];
+  sentAt: ISODate;
+  readAt?: ISODate;
+}
+
+/* -------- API Envelope (for future REST layer) -------- */
+
+export interface ApiEnvelope<T> {
+  ok: boolean;
+  data: T;
+  error?: { code: string; message: string; details?: unknown };
+  meta?: { requestId: string; serverTime: ISODate };
 }

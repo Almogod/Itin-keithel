@@ -4,7 +4,9 @@
       "PowerShell(New-Item *)",
       "Bash(pnpm add *)",
       "Bash(npx tsc *)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm build *)"
     ]
   }
 }
