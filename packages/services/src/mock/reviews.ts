@@ -1,0 +1,177 @@
+import type { Review } from '@ik/types';
+
+export const REVIEWS: Review[] = [
+  {
+    id: 'rev-001',
+    productId: 'prod-001',
+    userId: 'usr-002',
+    authorName: 'Ananya Rao',
+    rating: 5,
+    title: 'Every fold has weight',
+    body:
+      'The colour deepens when it catches the light — you can see the hand of the weaver in every inch. The tissue-wrapped packaging felt like opening a letter.',
+    isVerifiedPurchase: true,
+    helpfulCount: 18,
+    createdAt: '2026-06-14T00:00:00.000Z',
+  },
+  {
+    id: 'rev-002',
+    productId: 'prod-001',
+    userId: 'usr-003',
+    authorName: 'Mira Sen',
+    rating: 4,
+    title: 'Beautifully made',
+    body:
+      'I wore it to a wedding and everyone asked about it. The border motif is more subtle than in the photographs, which I love.',
+    isVerifiedPurchase: true,
+    helpfulCount: 9,
+    createdAt: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    id: 'rev-003',
+    productId: 'prod-005',
+    userId: 'usr-004',
+    authorName: 'Kabir Sharma',
+    rating: 5,
+    title: 'The pot glows',
+    body:
+      'The finish is smoother than anything I own — you can see the wet cotton polish in the light. It has become the centrepiece of my kitchen shelf.',
+    isVerifiedPurchase: true,
+    helpfulCount: 14,
+    createdAt: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    id: 'rev-004',
+    productId: 'prod-013',
+    userId: 'usr-002',
+    authorName: 'Ananya Rao',
+    rating: 5,
+    title: 'A gift for my mother',
+    body:
+      'She unfolded the stole and did not speak for a moment. The undyed muga is warmer than any wool I have handled.',
+    isVerifiedPurchase: true,
+    helpfulCount: 22,
+    createdAt: '2026-06-28T00:00:00.000Z',
+  },
+  {
+    id: 'rev-005',
+    productId: 'prod-013',
+    userId: 'usr-005',
+    authorName: 'Priya Nair',
+    rating: 5,
+    title: 'Featherweight, quietly gold',
+    body:
+      'You forget you have it on. Warm without weight. Ships from Imphal to Bengaluru in five days, folded with tissue.',
+    isVerifiedPurchase: true,
+    helpfulCount: 11,
+    createdAt: '2026-07-04T00:00:00.000Z',
+  },
+  {
+    id: 'rev-006',
+    productId: 'prod-009',
+    userId: 'usr-006',
+    authorName: 'Tara Menon',
+    rating: 4,
+    title: 'The basket has a quiet weight',
+    body:
+      'The Kauna reed smells faintly of monsoon water. Perfect on my dresser for keys and a small bowl of coins.',
+    isVerifiedPurchase: true,
+    helpfulCount: 6,
+    createdAt: '2026-06-20T00:00:00.000Z',
+  },
+  {
+    id: 'rev-007',
+    productId: 'prod-014',
+    userId: 'usr-003',
+    authorName: 'Mira Sen',
+    rating: 5,
+    title: 'Madder red at its best',
+    body:
+      'The dye is deep and even. I have washed it once in cold water and there was no bleed. Highly recommend.',
+    isVerifiedPurchase: true,
+    helpfulCount: 15,
+    createdAt: '2026-07-11T00:00:00.000Z',
+  },
+  {
+    id: 'rev-008',
+    productId: 'prod-006',
+    userId: 'usr-004',
+    authorName: 'Kabir Sharma',
+    rating: 4,
+    title: 'A generous kettle',
+    body:
+      'Slightly larger than expected. Pours cleanly. The lid seats snugly — clearly hand-fitted.',
+    isVerifiedPurchase: true,
+    helpfulCount: 4,
+    createdAt: '2026-07-14T00:00:00.000Z',
+  },
+  {
+    id: 'rev-009',
+    productId: 'prod-021',
+    userId: 'usr-005',
+    authorName: 'Priya Nair',
+    rating: 5,
+    title: 'The champak grain is beautiful',
+    body:
+      'Held it up to the window and could see the ripples of the growth rings. Perfect for a nut bowl on the coffee table.',
+    isVerifiedPurchase: true,
+    helpfulCount: 8,
+    createdAt: '2026-07-18T00:00:00.000Z',
+  },
+  {
+    id: 'rev-010',
+    productId: 'prod-017',
+    userId: 'usr-006',
+    authorName: 'Tara Menon',
+    rating: 5,
+    title: 'Warm light, warm shadow',
+    body:
+      'The cane weave throws a beautiful shadow when the lamp is on. It has changed the mood of my hallway.',
+    isVerifiedPurchase: true,
+    helpfulCount: 12,
+    createdAt: '2026-07-22T00:00:00.000Z',
+  },
+  {
+    id: 'rev-011',
+    productId: 'prod-003',
+    userId: 'usr-002',
+    authorName: 'Ananya Rao',
+    rating: 5,
+    title: 'A ceremonial piece',
+    body:
+      'Wore it to my sister’s reception. The gold thread and madder combination is exactly what the photographs promised.',
+    isVerifiedPurchase: true,
+    helpfulCount: 20,
+    createdAt: '2026-07-25T00:00:00.000Z',
+  },
+  {
+    id: 'rev-012',
+    productId: 'prod-011',
+    userId: 'usr-003',
+    authorName: 'Mira Sen',
+    rating: 4,
+    title: 'Soft and low-key',
+    body:
+      'A discreet cushion cover — matches everything. The reed is tightly woven so it should last.',
+    isVerifiedPurchase: false,
+    helpfulCount: 3,
+    createdAt: '2026-07-30T00:00:00.000Z',
+  },
+  {
+    id: 'rev-013',
+    productId: 'prod-016',
+    userId: 'usr-004',
+    authorName: 'Kabir Sharma',
+    rating: 5,
+    title: 'Winter without the itch',
+    body:
+      'Muga silk is warmer than wool without the scratch. This shawl is now my everyday.',
+    isVerifiedPurchase: true,
+    helpfulCount: 17,
+    createdAt: '2026-08-01T00:00:00.000Z',
+  },
+];
+
+export function reviewsFor(productId: string): Review[] {
+  return REVIEWS.filter((r) => r.productId === productId);
+}

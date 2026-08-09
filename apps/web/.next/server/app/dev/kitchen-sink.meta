@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dev/layout,_N_T_/dev/kitchen-sink/layout,_N_T_/dev/kitchen-sink/page,_N_T_/dev/kitchen-sink"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/dev/kitchen-sink/__PAGE__",
+    "/dev/kitchen-sink",
+    "/dev",
+    "/_index",
+    "/_head"
+  ]
+}

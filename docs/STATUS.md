@@ -4,7 +4,7 @@
 
 **Legend:** ✅ done · 🟡 in progress · ⬜ not started · ⛔ blocked
 
-**Last updated:** 2026-08-08
+**Last updated:** 2026-08-10 (Phase M)
 
 ---
 
@@ -91,31 +91,65 @@
 - No page imports from `services/mock/` directly
 - `pnpm lint` · `tsc --noEmit` · `pnpm build` — all clean (20 routes)
 
-## Phase 4 — Customer App Pages
+## Phase 4 — Customer App Pages ✅
 
-- ⬜ Landing
-- ⬜ Categories (grid + detail)
-- ⬜ Collections (list + detail)
-- ⬜ PLP
-- ⬜ PDP (all 4 signature moves)
-- ⬜ Wishlist
-- ⬜ Cart (drawer + page)
-- ⬜ Checkout (3-step)
-- ⬜ Order Success
-- ⬜ Order History (list + detail)
-- ⬜ Profile
-- ⬜ Settings
-- ⬜ Authentication (login / signup / forgot — UI only)
-- ⬜ Search
-- ⬜ Static Pages (About, Story, Sustainability, Craft Journal, Contact, FAQ, Terms, Privacy, Shipping, Returns)
-- ⬜ 404 / 500 / Coming Soon
+- ✅ Landing (`/`) — 7 editorial sections: framed hero, living-craft quote, guild spotlight, the edit, journal, provenance, categories
+- ✅ Categories index (`/categories`) + detail (`/categories/[slug]`) — hero + editorial description + real filter sidebar (guild / price / fibre) + sort, all URL-driven
+- ✅ Collections list (`/collections`) + detail (`/collections/[slug]`) — editorial hero (Framed Object), tagline, product grid
+- ✅ PLP (`/shop`) — full filter/sort via URL search params, reusable `FilterSidebar` + `SortBar`
+- ✅ PDP (`/shop/[slug]`) — all 4 signature moves: Chapter PDP (Object · Maker · Craft · Care), Provenance Card, Oversized `ChapterMarker`, Framed Object (materialCloseUp in `<Frame>`); + working GI-Verify modal
+- ✅ Wishlist (`/wishlist`) — real `WishlistContext`, heart toggle on PDP BuyBox, empty state + clear
+- ✅ Cart page (`/cart`) + `CartDrawer` — quantity, remove, sticky summary
+- ✅ Checkout (`/checkout`) — 3-step flow: Address · Shipping · Payment (UPI/Card/COD/etc)
+- ✅ Order Success (`/checkout/success`)
+- ✅ Order History (`/account/orders`) + detail (`/account/orders/[code]`) — timeline, address, payment, totals
+- ✅ Profile (`/account/profile`) — personal + addresses
+- ✅ Settings (`/account/settings`) — notifications, preferences, danger zone
+- ✅ Auth UI shells — `/auth/login`, `/auth/signup`, `/auth/forgot` via shared `AuthShell`
+- ✅ Search (`/search`) — debounced, typed `SearchResults` (products + categories + guilds), empty state
+- ✅ Static pages — `/about`, `/story`, `/sustainability`, `/contact`, `/faq`, `/terms`, `/privacy`, `/shipping`, `/returns`, `/gi-registry` (with live verify form)
+- ✅ 404 (`not-found.tsx`), 500 (`error.tsx`), Coming Soon (`/coming-soon`)
 
-## Phase M — Monorepo Split
+**Exit-criteria run (2026-08-10):**
+- `pnpm lint` — clean
+- `npx tsc --noEmit` — clean
+- `pnpm build` — clean (**37 routes** prerendered / on-demand; up from 20 after Phase 2)
 
-- ⬜ Turborepo + pnpm workspaces at root
-- ⬜ Move `src/` → `apps/web/`
-- ⬜ Extract `packages/{ui,types,config,utils,hooks,services,tsconfig,eslint-config}`
-- ⬜ Scaffold `apps/{vendor,admin,support,api,delivery}`
+## Phase M — Monorepo Split ✅
+
+**Workspace layout:**
+```
+root/
+├── apps/
+│   ├── web/       (3000) — the customer app, identical UX to Phase 4
+│   ├── vendor/    (3001) — portal shell
+│   ├── admin/     (3002) — portal shell
+│   ├── support/   (3003) — portal shell
+│   ├── api/       (3004) — /api/v1/health returns typed ApiEnvelope
+│   └── delivery/  (3005) — Coming Soon placeholder
+├── packages/
+│   ├── ui/               — primitives + layout + motion + patterns + styles (tokens + globals)
+│   ├── types/            — domain types
+│   ├── config/           — routes, enums, site
+│   ├── utils/            — cn, format, motion presets, filterProducts + PRICE_BUCKETS + SORT_OPTIONS
+│   ├── hooks/            — useDebounce, useFocusTrap, useGsap, useIntersection, useLockBody, useMediaQuery, useScrollDirection
+│   ├── services/         — mock services (getProducts, getOrder, verifyGICertificate, searchProducts, etc.)
+│   ├── tsconfig/         — base.json · nextjs.json · react-library.json
+│   └── eslint-config/    — base + next.mjs
+├── turbo.json
+├── pnpm-workspace.yaml
+└── package.json          — turbo run dev/build/lint/typecheck
+```
+
+**Package graph:** apps consume `@ik/*` packages via `workspace:*`. `@ik/ui` re-exports every primitive, layout, motion, and pattern component through a single barrel. `@ik/ui/styles/globals.css` is Tailwind v4 entry with `@source` globs pointing at both `apps/**` and `packages/**` so classes anywhere in the workspace are detected.
+
+**Refactor for isolation:** `ProvenanceCard` (in ui) no longer imports `GIVerifyButton` (a web-only feature). It now accepts an optional `verifyAction?: ReactNode` slot; the web PDP passes the `<GIVerifyButton />`. Same pattern will let vendor/admin reuse it.
+
+**Exit-criteria run (2026-08-10):**
+- `pnpm install` — 15 workspace projects linked
+- `turbo run typecheck` — 6 successful, 6 total (~29s)
+- `turbo run lint` — 6 successful, 6 total (~66s)
+- `turbo run build` — 6 successful, 6 total (~80s). Web still ships 37 routes (33 static + 4 dynamic), identical to Phase 4 output.
 
 ## Phase 5 — Vendor Portal (`apps/vendor`)
 
@@ -199,6 +233,8 @@
 | **2026-08-08** | **Phase 1 complete** — Kitchen Sink live at `/dev/kitchen-sink`; lint + tsc + build all clean | Ready for Phase 2 (Chrome) |
 | **2026-08-08** | **Phase 2 complete** — Header + Footer + MobileNav shipped; `useFocusTrap` hook added and applied to `Drawer` + `Modal` | Ready for Phase 3 (Mock Data & Services) |
 | **2026-08-08** | **Phase 3 complete** — Async, typed, paginated service layer; five new mock modules (artisans / coupons / gi / appointments / notifications); every page migrated to `await`. `Order.courier` added to types to match DATA_MODELS.md. | Ready for Phase 4 (Customer App Pages) |
+| **2026-08-10** | **Phase 4 complete** — 37 routes shipped. New: collections (list + detail), real `WishlistContext` + wishlist page, URL-driven PLP filters (`FilterSidebar` + `SortBar` + `lib/filterProducts`), search results extended to categories + guilds, GI Verify modal on PDP (`GIVerifyButton`), full static content set (about, story, sustainability, contact, faq, terms, privacy, shipping, returns, gi-registry), `error.tsx` + `/coming-soon`. | Ready for Phase M (Monorepo Split) |
+| **2026-08-10** | **Phase M complete** — Turborepo + pnpm workspaces. 8 packages (`ui`, `types`, `config`, `utils`, `hooks`, `services`, `tsconfig`, `eslint-config`) + 6 apps (`web`, `vendor`, `admin`, `support`, `api`, `delivery`). Zero UX regression: `@ik/web` still ships the same 37 routes. `ProvenanceCard` refactored to accept a `verifyAction` slot so `packages/ui` has no dependency on web-only features. | Ready for Phase 5 (Vendor Portal) |
 
 ## Open blockers
 

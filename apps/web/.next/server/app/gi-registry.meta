@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/gi-registry/layout,_N_T_/gi-registry/page,_N_T_/gi-registry"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/gi-registry/__PAGE__",
+    "/gi-registry",
+    "/_index",
+    "/_head"
+  ]
+}

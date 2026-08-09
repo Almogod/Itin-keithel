@@ -134,3 +134,13 @@ Full rationale for every app and package: [ARCHITECTURE.md §5](./docs/ARCHITECT
 ## Contributing to the rebuild
 
 The rebuild is checkpoint-driven. Each phase in [ROADMAP.md](./docs/ROADMAP.md) has explicit exit criteria; no phase starts until the previous one is reviewed. Update [STATUS.md](./docs/STATUS.md) as work lands.
+
+for indexing in website:
+Open http://localhost:3000/dev/routes — it's a single index page that lists every route in the app, grouped by area (Landing, Categories, Collections, Guilds, Shop/PLP/PDP, Cart/Wishlist/Checkout, Account, Auth, Journal, Static content, Errors, Dev). Every entry is a clickable link, and anything added in this Phase 4 pass is tagged NEW in vermilion so you can find the new work at a glance.
+
+
+
+
+http://localhost:3000 for the customer app,
+http://localhost:3001-3003/3005 for the portal shells, 
+http://localhost:3004/api/v1/health for the API stub.

@@ -1,0 +1,12 @@
+{
+  "name": "@ik/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.mjs",
+  "files": ["index.mjs", "next.mjs"],
+  "peerDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9"
+  }
+}

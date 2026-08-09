@@ -1,0 +1,46 @@
+import type { Appointment } from '@ik/types';
+
+export const APPOINTMENTS: Appointment[] = [
+  {
+    id: 'apt-001',
+    userId: 'usr-current',
+    stylistName: 'Ranjana Mangang',
+    categoryFocus: 'Bridal Muga',
+    scheduledAt: '2026-08-14T10:00:00.000Z',
+    durationMinutes: 45,
+    mode: 'VIDEO',
+    status: 'CONFIRMED',
+    notes: 'Discuss the drape for a Meitei-style wedding reception.',
+  },
+  {
+    id: 'apt-002',
+    userId: 'usr-002',
+    stylistName: 'Ranjana Mangang',
+    categoryFocus: 'Everyday Phanek',
+    scheduledAt: '2026-08-18T14:30:00.000Z',
+    durationMinutes: 30,
+    mode: 'VIDEO',
+    status: 'REQUESTED',
+  },
+  {
+    id: 'apt-003',
+    userId: 'usr-003',
+    stylistName: 'Rakhi Yumnam',
+    categoryFocus: 'Longpi Table',
+    scheduledAt: '2026-08-11T11:00:00.000Z',
+    durationMinutes: 30,
+    mode: 'IN_STORE',
+    status: 'COMPLETED',
+    notes: 'Client picked a serving pot and two tea cups.',
+  },
+  {
+    id: 'apt-004',
+    userId: 'usr-005',
+    stylistName: 'Ranjana Mangang',
+    categoryFocus: 'Muga Winter Edit',
+    scheduledAt: '2026-08-20T16:00:00.000Z',
+    durationMinutes: 45,
+    mode: 'VIDEO',
+    status: 'CONFIRMED',
+  },
+];

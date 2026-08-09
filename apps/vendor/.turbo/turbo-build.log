@@ -1,0 +1,22 @@
+
+> @ik/vendor@0.0.1 build C:\Users\ANUJ\Desktop\Itin-keithel\apps\vendor
+> next build
+
+▲ Next.js 16.2.9 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 21.6s
+  Running TypeScript ...
+  Finished TypeScript in 30.6s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 2.2s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
