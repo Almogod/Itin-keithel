@@ -1,0 +1,22 @@
+{
+  "files.exclude": {
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/node_modules": true,
+    "**/tsconfig.tsbuildinfo": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/.turbo/**": true,
+    "**/node_modules/**": true
+  },
+  "json.schemas": [],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
