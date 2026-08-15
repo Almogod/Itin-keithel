@@ -31,6 +31,13 @@
   /* Editorial framing accent */
   --color-indigo: #22314A;          /* Loktak Indigo */
 
+  /* Monochrome (brkthru-inspired storefront palette) */
+  --color-mono-ink: #0A0A0A;        /* True near-black */
+  --color-mono-surface: #FFFFFF;    /* True white */
+  --color-mono-muted: #6B6B6B;      /* Neutral grey */
+  --color-mono-line: #E5E5E5;       /* Divider grey */
+  --color-brand-red: #E53E3E;       /* Sale/urgency badge */
+
   /* System */
   --color-success: #2E4A3B;
   --color-warn: #B78418;

@@ -25,6 +25,11 @@
   --color-action: #2E4A3B;
   --color-action-hover: #253C30;
   --color-indigo: #22314A;
+  --color-mono-ink: #0A0A0A;
+  --color-mono-surface: #FFFFFF;
+  --color-mono-muted: #6B6B6B;
+  --color-mono-line: #E5E5E5;
+  --color-brand-red: #E53E3E;
   --color-success: #2E4A3B;
   --color-warn: #B78418;
   --color-danger: #8B2C2C;
