@@ -1,33 +1,40 @@
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Stack } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
-import { Button } from '@ik/ui';
-import { Hairline } from '@ik/ui';
+import Link from 'next/link';
 import { ROUTES } from '@ik/config';
 
 export const metadata = { title: 'Page not found' };
 
 export default function NotFound() {
   return (
-    <Section space="chapter">
-      <Container size="editorial">
-        <Stack gap={6} align="center" className="text-center">
-          <Eyebrow tone="vermilion">404</Eyebrow>
-          <h1 className="font-display font-normal text-ink text-[clamp(3rem,7vw,6rem)] leading-[1.02]">
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="py-24 md:py-32">
+        <div className="mx-auto w-full max-w-[680px] px-5 md:px-12 flex flex-col items-center gap-6 text-center">
+          <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red">
+            404
+          </p>
+          <h1 className="font-sans font-semibold uppercase leading-[0.98] tracking-[-0.01em] text-mono-ink text-[clamp(3rem,7vw,6rem)]">
             The page is quiet.
           </h1>
-          <Hairline vermilion className="w-16 mx-auto" />
-          <p className="text-[1.0625rem] text-ink-700 max-w-prose">
-            We couldn’t find what you were looking for. Perhaps it was moved to another shelf,
+          <span className="block w-16 h-[2px] bg-brand-red" aria-hidden />
+          <p className="text-[1.0625rem] text-mono-ink max-w-xl leading-[1.7]">
+            We couldn&rsquo;t find what you were looking for. Perhaps it was moved to another shelf,
             or perhaps it was never here.
           </p>
-          <div className="pt-4 flex gap-3 justify-center">
-            <Button as="link" href={ROUTES.HOME}>Return home</Button>
-            <Button as="link" href={ROUTES.SHOP} variant="ghost">Browse the shop</Button>
+          <div className="pt-4 flex gap-3 justify-center flex-wrap">
+            <Link
+              href={ROUTES.HOME}
+              className="inline-flex items-center gap-3 uppercase tracking-[0.2em] text-[0.75rem] font-semibold px-6 py-3.5 bg-mono-ink text-mono-surface hover:bg-brand-red transition-colors"
+            >
+              Return home <span aria-hidden>→</span>
+            </Link>
+            <Link
+              href={ROUTES.SHOP}
+              className="inline-flex items-center gap-3 uppercase tracking-[0.2em] text-[0.75rem] font-semibold px-6 py-3.5 border border-mono-ink text-mono-ink hover:bg-mono-ink hover:text-mono-surface transition-colors"
+            >
+              Browse the shop
+            </Link>
           </div>
-        </Stack>
-      </Container>
-    </Section>
+        </div>
+      </section>
+    </div>
   );
 }

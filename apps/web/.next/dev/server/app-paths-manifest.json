@@ -1,4 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/shop/[slug]/page": "app/shop/[slug]/page.js"
+  "/dev/routes/page": "app/dev/routes/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/shop/[slug]/page": "app/shop/[slug]/page.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/checkout/success/page": "app/checkout/success/page.js",
+  "/account/orders/page": "app/account/orders/page.js"
 }

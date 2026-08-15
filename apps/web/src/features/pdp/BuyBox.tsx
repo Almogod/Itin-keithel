@@ -5,7 +5,6 @@ import { Heart } from 'lucide-react';
 import type { Product } from '@ik/types';
 import { useCart } from '@/features/cart/CartContext';
 import { useWishlist } from '@/features/wishlist/WishlistContext';
-import { Button } from '@ik/ui';
 import { useToast } from '@ik/ui';
 import { formatPrice } from '@ik/utils';
 import { cn } from '@ik/utils';
@@ -30,11 +29,15 @@ export function BuyBox({ product }: { product: Product }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-[1.5rem] text-ink tabular-nums">{formatPrice(variant.price)}</p>
+      <p className="text-[1.5rem] font-semibold text-mono-ink tabular-nums">
+        {formatPrice(variant.price)}
+      </p>
 
       {product.variants.length > 1 ? (
         <div className="flex flex-col gap-3">
-          <span className="small-caps text-[0.72rem] text-muted">Variant</span>
+          <span className="uppercase tracking-[0.18em] text-[0.68rem] font-semibold text-mono-ink">
+            Variant
+          </span>
           <div className="flex flex-wrap gap-2">
             {product.variants.map((v) => (
               <button
@@ -42,10 +45,10 @@ export function BuyBox({ product }: { product: Product }) {
                 type="button"
                 onClick={() => setVariantId(v.id)}
                 className={cn(
-                  'px-4 py-2 rounded-full border text-[0.875rem] transition-colors',
+                  'px-4 py-2 border text-[0.8125rem] uppercase tracking-[0.1em] font-medium transition-colors',
                   v.id === variant.id
-                    ? 'border-ink bg-ink text-canvas'
-                    : 'border-ink-300 text-ink hover:border-ink',
+                    ? 'border-mono-ink bg-mono-ink text-mono-surface'
+                    : 'border-mono-ink text-mono-ink hover:bg-mono-ink hover:text-mono-surface',
                 )}
               >
                 {v.optionLabel}
@@ -56,18 +59,30 @@ export function BuyBox({ product }: { product: Product }) {
       ) : null}
 
       <div className="flex flex-col gap-3">
-        <Button onClick={onAdd} fullWidth>Add to cart</Button>
-        <Button variant="ghost" fullWidth onClick={onSave} aria-pressed={saved}>
+        <button
+          type="button"
+          onClick={onAdd}
+          className="inline-flex items-center justify-center gap-3 uppercase tracking-[0.2em] text-[0.75rem] font-semibold px-6 py-4 bg-mono-ink text-mono-surface hover:bg-brand-red transition-colors"
+        >
+          Add to cart
+          <span aria-hidden>→</span>
+        </button>
+        <button
+          type="button"
+          onClick={onSave}
+          aria-pressed={saved}
+          className="inline-flex items-center justify-center gap-2 uppercase tracking-[0.2em] text-[0.75rem] font-semibold px-6 py-4 bg-transparent text-mono-ink border border-mono-ink hover:bg-mono-ink hover:text-mono-surface transition-colors"
+        >
           <Heart
             size={16}
-            strokeWidth={1.25}
-            className={cn('mr-2', saved && 'fill-vermilion text-vermilion')}
+            strokeWidth={1.5}
+            className={cn(saved && 'fill-brand-red text-brand-red')}
           />
           {saved ? 'Saved' : 'Save for later'}
-        </Button>
+        </button>
       </div>
 
-      <ul className="flex flex-col gap-2 text-[0.8125rem] text-muted pt-4 border-t border-ink-100">
+      <ul className="flex flex-col gap-2 text-[0.8125rem] text-mono-muted pt-4 border-t border-mono-line">
         <li>Ships from Imphal within 5 days.</li>
         <li>Free returns for 14 days.</li>
         <li>Each purchase pays the guild a direct share.</li>

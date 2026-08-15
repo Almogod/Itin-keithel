@@ -1,9 +1,5 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Frame } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
 
 export interface AuthShellProps {
   eyebrow: string;
@@ -17,25 +13,34 @@ export interface AuthShellProps {
 
 export function AuthShell({ eyebrow, title, subtitle, children, altLabel, altHref, altText }: AuthShellProps) {
   return (
-    <Section space="xl">
-      <Container size="editorial">
-        <Frame tone="frame" padding="lg">
-          <div className="flex flex-col gap-4 mb-8">
-            <Eyebrow tone="vermilion">{eyebrow}</Eyebrow>
-            <h1 className="font-display font-normal text-ink text-[clamp(2rem,4vw,3rem)] leading-[1.08]">
-              {title}
-            </h1>
-            {subtitle ? <p className="text-[1rem] text-ink-700 max-w-md">{subtitle}</p> : null}
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="py-16 md:py-24">
+        <div className="mx-auto w-full max-w-[520px] px-5 md:px-8">
+          <div className="border border-mono-ink p-8 md:p-10">
+            <div className="flex flex-col gap-4 mb-8">
+              <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red">
+                {eyebrow}
+              </p>
+              <h1 className="font-sans font-semibold uppercase leading-[1.05] tracking-[-0.005em] text-mono-ink text-[clamp(1.75rem,3.5vw,2.5rem)]">
+                {title}
+              </h1>
+              {subtitle ? (
+                <p className="text-[0.9375rem] text-mono-muted max-w-md leading-[1.55]">{subtitle}</p>
+              ) : null}
+            </div>
+            <div className="flex flex-col gap-4">{children}</div>
+            <p className="mt-8 text-[0.8125rem] text-mono-muted">
+              {altText}{' '}
+              <Link
+                href={altHref}
+                className="uppercase tracking-[0.16em] text-[0.7rem] font-semibold text-mono-ink border-b border-mono-ink hover:text-brand-red hover:border-brand-red"
+              >
+                {altLabel}
+              </Link>
+            </p>
           </div>
-          <div className="flex flex-col gap-4">{children}</div>
-          <p className="mt-8 text-[0.875rem] text-muted">
-            {altText}{' '}
-            <Link href={altHref} className="text-vermilion underline underline-offset-4">
-              {altLabel}
-            </Link>
-          </p>
-        </Frame>
-      </Container>
-    </Section>
+        </div>
+      </section>
+    </div>
   );
 }

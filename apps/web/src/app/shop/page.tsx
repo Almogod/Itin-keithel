@@ -1,7 +1,4 @@
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
-import { Breadcrumb } from '@ik/ui';
+import Link from 'next/link';
 import { ProductGrid } from '@ik/ui';
 import { FilterSidebar, SortBar } from '@ik/ui';
 import { getGuilds, getProducts } from '@ik/services';
@@ -25,27 +22,47 @@ export default async function ShopPage({ searchParams }: Props) {
   const fibres = collectFibres(allProducts);
 
   return (
-    <Section space="xl">
-      <Container size="wide">
-        <Breadcrumb items={[{ label: 'Home', href: ROUTES.HOME }, { label: 'Shop' }]} className="mb-8" />
-        <div className="flex flex-col gap-4 max-w-2xl mb-16">
-          <Eyebrow tone="vermilion">The Shop</Eyebrow>
-          <h1 className="font-display font-normal text-ink text-[clamp(2.25rem,5vw,4rem)] leading-[1.08]">
-            Every piece we make, on one shelf.
-          </h1>
-          <p className="text-[1.0625rem] text-ink-700 leading-[1.6]">
-            {allProducts.length} pieces from four guilds, each named by maker and framed by place.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-12">
-          <FilterSidebar guilds={guilds} fibres={fibres} />
-          <div>
-            <SortBar totalCount={products.length} />
-            <ProductGrid products={products} />
+    <div className="bg-mono-surface text-mono-ink">
+      {/* Page header */}
+      <section className="border-b border-mono-line">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px] py-12 md:py-16">
+          <nav className="mb-6" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 uppercase tracking-[0.14em] text-[0.68rem] font-medium text-mono-muted">
+              <li>
+                <Link href={ROUTES.HOME} className="hover:text-mono-ink">Home</Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="text-mono-ink">Shop</li>
+            </ol>
+          </nav>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red mb-3">
+                The Shop
+              </p>
+              <h1 className="font-sans font-semibold uppercase leading-[1.02] tracking-[-0.005em] text-mono-ink text-[clamp(2rem,4.5vw,3.5rem)]">
+                Every piece we make, on one shelf.
+              </h1>
+            </div>
+            <p className="text-[0.9375rem] text-mono-muted md:text-right">
+              <span className="tabular-nums text-mono-ink font-semibold">{allProducts.length}</span> pieces from four guilds — each named by maker, framed by place.
+            </p>
           </div>
         </div>
-      </Container>
-    </Section>
+      </section>
+
+      {/* Grid + filters */}
+      <section className="py-12 md:py-16">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 md:gap-14">
+            <FilterSidebar guilds={guilds} fibres={fibres} />
+            <div>
+              <SortBar totalCount={products.length} />
+              <ProductGrid products={products} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -1,10 +1,5 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Grid } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
-import { Breadcrumb } from '@ik/ui';
-import { ChapterMarker } from '@ik/ui';
 import { ProductCard } from '@ik/ui';
 import { getGuild, getProducts } from '@ik/services';
 import { ROUTES } from '@ik/config';
@@ -25,55 +20,69 @@ export default async function GuildPage({ params }: Props) {
   const { items: products } = await getProducts({ guildSlug: slug, pageSize: 100 });
 
   return (
-    <>
-      <Section space="lg">
-        <Container size="wide">
-          <Breadcrumb
-            items={[
-              { label: 'Home', href: ROUTES.HOME },
-              { label: 'Guilds', href: ROUTES.GUILDS },
-              { label: guild.name },
-            ]}
-            className="mb-8"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-12 items-start">
-            <div className="aspect-[3/4] bg-frame rounded-lg overflow-hidden">
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="border-b border-mono-line">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px] py-12 md:py-16">
+          <nav className="mb-6" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 uppercase tracking-[0.14em] text-[0.68rem] font-medium text-mono-muted">
+              <li><Link href={ROUTES.HOME} className="hover:text-mono-ink">Home</Link></li>
+              <li aria-hidden>/</li>
+              <li><Link href={ROUTES.GUILDS} className="hover:text-mono-ink">Guilds</Link></li>
+              <li aria-hidden>/</li>
+              <li className="text-mono-ink">{guild.name}</li>
+            </ol>
+          </nav>
+
+          <div className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-10 lg:gap-16 items-start">
+            <div className="aspect-[3/4] bg-mono-line overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={guild.portrait.src} alt={guild.portrait.alt} className="w-full h-full object-cover" />
             </div>
-            <div className="flex flex-col gap-6">
-              <Eyebrow tone="vermilion">Guild · since {guild.foundedYear}</Eyebrow>
-              <h1 className="font-display font-normal text-ink text-[clamp(2.25rem,5vw,4rem)] leading-[1.08]">
+            <div className="flex flex-col gap-5">
+              <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red">
+                Guild · since {guild.foundedYear}
+              </p>
+              <h1 className="font-sans font-semibold uppercase leading-[1.02] tracking-[-0.005em] text-mono-ink text-[clamp(2rem,4.5vw,3.5rem)]">
                 {guild.name}
               </h1>
-              <p className="small-caps text-[0.72rem] text-muted">
+              <p className="uppercase tracking-[0.18em] text-[0.7rem] font-medium text-mono-muted">
                 {guild.region} · {guild.memberCount} weavers
               </p>
-              <p className="text-[1.0625rem] text-ink-700 leading-[1.6] max-w-prose">
+              <p className="text-[1.0625rem] text-mono-ink leading-[1.65] max-w-prose">
                 {guild.story}
               </p>
-              <ul className="flex flex-wrap gap-2">
+              <ul className="flex flex-wrap gap-2 pt-2">
                 {guild.specialisations.map((s) => (
-                  <li key={s} className="px-3 py-1 rounded-full border border-ink-300 text-[0.8125rem] text-ink-700">
+                  <li
+                    key={s}
+                    className="px-3 py-1.5 border border-mono-ink text-[0.72rem] uppercase tracking-[0.12em] font-semibold text-mono-ink"
+                  >
                     {s}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </section>
 
-      <Section space="chapter">
-        <Container size="wide">
-          <ChapterMarker chapter="Pieces" title="From this guild" />
-          <Grid cols={3} gap={12} className="mt-16">
+      <section className="py-14 md:py-20">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px]">
+          <div className="flex items-end justify-between border-b border-mono-ink pb-4 mb-10">
+            <h2 className="uppercase tracking-[0.04em] font-sans font-semibold text-mono-ink text-[clamp(1.25rem,2.4vw,1.75rem)]">
+              From this guild
+            </h2>
+            <p className="uppercase tracking-[0.16em] text-[0.72rem] font-semibold text-mono-muted tabular-nums">
+              {products.length} pieces
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
-          </Grid>
-        </Container>
-      </Section>
-    </>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -1,8 +1,5 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
 import { Avatar } from '@ik/ui';
 import { getCurrentUser } from '@ik/services';
 import { ROUTES } from '@ik/config';
@@ -18,35 +15,44 @@ const NAV = [
 export default async function AccountLayout({ children }: { children: ReactNode }) {
   const user = await getCurrentUser();
   return (
-    <Section space="lg">
-      <Container size="wide">
-        <div className="flex items-center gap-4 mb-12">
-          <Avatar name={user.fullName} shape="circle" size={64} />
-          <div>
-            <Eyebrow tone="vermilion">Account</Eyebrow>
-            <h1 className="mt-1 font-display font-normal text-ink text-[clamp(1.75rem,3.5vw,2.75rem)]">
-              {user.fullName}
-            </h1>
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="border-b border-mono-line">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px] py-10 md:py-14">
+          <div className="flex items-center gap-4">
+            <Avatar name={user.fullName} shape="circle" size={64} />
+            <div>
+              <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red">
+                Account
+              </p>
+              <h1 className="mt-1 font-sans font-semibold uppercase leading-[1.05] tracking-[-0.005em] text-mono-ink text-[clamp(1.5rem,3vw,2.25rem)]">
+                {user.fullName}
+              </h1>
+            </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12">
-          <nav aria-label="Account">
-            <ul className="flex lg:flex-col gap-1 overflow-x-auto scrollbar-invisible border-b lg:border-b-0 border-ink-100 pb-2 lg:pb-0">
-              {NAV.map((n) => (
-                <li key={n.href}>
-                  <Link
-                    href={n.href}
-                    className="block px-3 py-2 text-[0.9375rem] text-ink hover:bg-frame rounded-md transition-colors whitespace-nowrap"
-                  >
-                    {n.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div>{children}</div>
+      </section>
+
+      <section className="py-10 md:py-14">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 md:gap-14">
+            <nav aria-label="Account">
+              <ul className="flex lg:flex-col gap-1 overflow-x-auto scrollbar-invisible border-b lg:border-b-0 border-mono-line pb-2 lg:pb-0">
+                {NAV.map((n) => (
+                  <li key={n.href}>
+                    <Link
+                      href={n.href}
+                      className="block px-3 py-2 uppercase tracking-[0.16em] text-[0.72rem] font-semibold text-mono-ink hover:text-brand-red transition-colors whitespace-nowrap"
+                    >
+                      {n.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div>{children}</div>
+          </div>
         </div>
-      </Container>
-    </Section>
+      </section>
+    </div>
   );
 }

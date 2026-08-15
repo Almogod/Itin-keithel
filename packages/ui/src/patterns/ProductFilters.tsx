@@ -54,13 +54,16 @@ export function FilterSidebar({ guilds, fibres }: { guilds: Guild[]; fibres: str
 
   return (
     <aside className="flex flex-col gap-8">
+      <p className="uppercase tracking-[0.16em] text-[0.68rem] font-semibold text-mono-ink border-b border-mono-ink pb-2">
+        Filter &amp; sort
+      </p>
       {hasAny ? (
         <button
           type="button"
           onClick={clearAll}
-          className="inline-flex items-center gap-2 text-[0.8125rem] text-muted hover:text-vermilion self-start"
+          className="inline-flex items-center gap-2 uppercase tracking-[0.14em] text-[0.7rem] font-semibold text-mono-muted hover:text-mono-ink self-start"
         >
-          <X size={14} strokeWidth={1.25} />
+          <X size={14} strokeWidth={1.5} />
           Clear all
         </button>
       ) : null}
@@ -108,14 +111,18 @@ export function SortBar({ totalCount }: { totalCount: number }) {
   const current = params.get('sort') ?? 'newest';
 
   return (
-    <div className="flex items-center justify-between mb-10">
-      <p className="text-[0.875rem] text-muted tabular-nums">{totalCount} pieces</p>
-      <label className="inline-flex items-center gap-2 text-[0.875rem] text-ink-700">
-        <span className="small-caps text-[0.7rem] text-muted">Sort</span>
+    <div className="flex items-center justify-between mb-10 border-b border-mono-line pb-4">
+      <p className="uppercase tracking-[0.16em] text-[0.72rem] font-semibold text-mono-ink tabular-nums">
+        {totalCount} pieces
+      </p>
+      <label className="inline-flex items-center gap-3">
+        <span className="uppercase tracking-[0.16em] text-[0.68rem] font-semibold text-mono-muted">
+          Sort
+        </span>
         <select
           value={current}
           onChange={(e) => setSort(e.target.value)}
-          className="bg-transparent text-[0.875rem] text-ink border-none focus:outline-none cursor-pointer"
+          className="bg-transparent uppercase tracking-[0.14em] text-[0.72rem] font-semibold text-mono-ink border-none focus:outline-none cursor-pointer"
         >
           {SORT_OPTIONS.map((s) => (
             <option key={s.value} value={s.value}>
@@ -131,7 +138,7 @@ export function SortBar({ totalCount }: { totalCount: number }) {
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-3">
-      <Eyebrow tone="muted">{title}</Eyebrow>
+      <Eyebrow tone="ink">{title}</Eyebrow>
       <ul className="flex flex-col gap-2">{children}</ul>
     </div>
   );
@@ -148,12 +155,12 @@ function FilterCheck({
 }) {
   return (
     <li>
-      <label className="inline-flex items-center gap-2 text-[0.9375rem] text-ink cursor-pointer">
+      <label className="inline-flex items-center gap-2.5 text-[0.875rem] text-mono-ink cursor-pointer hover:text-brand-red transition-colors">
         <input
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
-          className="accent-vermilion"
+          className="accent-mono-ink"
         />
         {label}
       </label>

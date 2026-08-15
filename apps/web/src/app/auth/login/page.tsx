@@ -31,7 +31,7 @@ export default function LoginPage() {
         <Input label="Password" type="password" name="password" required autoComplete="current-password" />
         <div className="flex items-center justify-between">
           <Checkbox label="Remember me" />
-          <Link href={ROUTES.FORGOT} className="text-[0.8125rem] text-muted underline underline-offset-4 hover:text-vermilion">
+          <Link href={ROUTES.FORGOT} className="uppercase tracking-[0.14em] text-[0.68rem] font-semibold text-mono-muted underline underline-offset-4 hover:text-brand-red">
             Forgot password?
           </Link>
         </div>

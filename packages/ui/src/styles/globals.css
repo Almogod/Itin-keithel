@@ -10,29 +10,29 @@
    TAILWIND v4 THEME — tokens exposed as utilities
    ========================================================================== */
 @theme {
-  /* Colors — plumb every token into Tailwind so classes stay declarative */
-  --color-canvas: #F7F4EE;
-  --color-frame: #E9E1D2;
-  --color-muted: #8A8377;
-  --color-ink: #141312;
-  --color-ink-900: #141312;
-  --color-ink-700: #2A2724;
-  --color-ink-500: #5A544C;
-  --color-ink-300: #A19A8E;
-  --color-ink-100: #E9E1D2;
-  --color-vermilion: #B23A2C;
-  --color-vermilion-hover: #8F2E23;
-  --color-action: #2E4A3B;
-  --color-action-hover: #253C30;
-  --color-indigo: #22314A;
+  /* Colors — retuned to brkthru monochrome palette (2026-08-16). */
+  --color-canvas: #FFFFFF;
+  --color-frame: #F5F5F5;
+  --color-muted: #6B6B6B;
+  --color-ink: #0A0A0A;
+  --color-ink-900: #0A0A0A;
+  --color-ink-700: #2A2A2A;
+  --color-ink-500: #6B6B6B;
+  --color-ink-300: #B5B5B5;
+  --color-ink-100: #E5E5E5;
+  --color-vermilion: #E53E3E;
+  --color-vermilion-hover: #C53030;
+  --color-action: #0A0A0A;
+  --color-action-hover: #1B2A4E;
+  --color-indigo: #1B2A4E;
   --color-mono-ink: #0A0A0A;
   --color-mono-surface: #FFFFFF;
   --color-mono-muted: #6B6B6B;
   --color-mono-line: #E5E5E5;
   --color-brand-red: #E53E3E;
-  --color-success: #2E4A3B;
+  --color-success: #1B7F3A;
   --color-warn: #B78418;
-  --color-danger: #8B2C2C;
+  --color-danger: #E53E3E;
 
   /* Fonts */
   --font-display: var(--font-fraunces), Georgia, serif;
@@ -122,9 +122,9 @@ body {
   font-feature-settings: "ss01", "cv11";
 }
 
-/* Long-form reading defaults */
+/* Long-form reading defaults — sans headings for brkthru feel */
 p { line-height: var(--leading-body); }
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.005em; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.01em; }
 
 button { font-family: inherit; }
 
@@ -133,21 +133,21 @@ button { font-family: inherit; }
 
 /* Selection */
 ::selection {
-  background: var(--color-vermilion);
+  background: var(--color-ink);
   color: var(--color-canvas);
 }
 
-/* Scrollbar (kept minimal + warm) */
+/* Scrollbar — minimal monochrome */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--color-canvas); }
-::-webkit-scrollbar-thumb { background: var(--color-ink-300); border-radius: var(--radius-full); border: 2px solid var(--color-canvas); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+::-webkit-scrollbar-thumb { background: var(--color-ink-300); border: 2px solid var(--color-canvas); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink); }
 
-/* Focus ring — always Vermilion, always visible */
+/* Focus ring — always black, always visible */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
 }
 
 /* Skip link */

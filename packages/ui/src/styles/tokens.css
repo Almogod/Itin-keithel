@@ -7,47 +7,50 @@
 
 :root {
   /* ---------------- COLOR ---------------- */
-  /* Base */
-  --color-canvas: #F7F4EE;          /* Rice Paper */
-  --color-frame: #E9E1D2;           /* Muga Silk */
-  --color-muted: #8A8377;           /* Kauna Reed */
+  /* Base — retuned to brkthru monochrome palette (2026-08-16).
+     The warm "Rice Paper / Muga Silk / Loktak Ink" values below the mono
+     block were preserved as legacy references; only the active tokens
+     below inherit them. */
+  --color-canvas: #FFFFFF;          /* True white surface */
+  --color-frame: #F5F5F5;           /* Soft grey lift */
+  --color-muted: #6B6B6B;           /* Neutral grey text */
 
-  /* Ink scale (derived from Loktak Ink) */
-  --color-ink: #141312;             /* Loktak Ink — primary */
-  --color-ink-900: #141312;
-  --color-ink-700: #2A2724;
-  --color-ink-500: #5A544C;
-  --color-ink-300: #A19A8E;
-  --color-ink-100: #E9E1D2;
+  /* Ink scale (near-black + true greys) */
+  --color-ink: #0A0A0A;             /* True near-black */
+  --color-ink-900: #0A0A0A;
+  --color-ink-700: #2A2A2A;
+  --color-ink-500: #6B6B6B;
+  --color-ink-300: #B5B5B5;
+  --color-ink-100: #E5E5E5;
 
-  /* Character (voice) */
-  --color-vermilion: #B23A2C;       /* Manipur Vermilion */
-  --color-vermilion-hover: #8F2E23;
+  /* Character (accent / sale) */
+  --color-vermilion: #E53E3E;       /* Brand red — sale/urgency */
+  --color-vermilion-hover: #C53030;
 
-  /* Action (purchase) */
-  --color-action: #2E4A3B;          /* Ereima Green */
-  --color-action-hover: #253C30;
+  /* Action (purchase) — brkthru CTAs are near-black */
+  --color-action: #0A0A0A;
+  --color-action-hover: #1B2A4E;    /* Midnight blue on hover */
 
   /* Editorial framing accent */
-  --color-indigo: #22314A;          /* Loktak Indigo */
+  --color-indigo: #1B2A4E;          /* Midnight blue */
 
-  /* Monochrome (brkthru-inspired storefront palette) */
-  --color-mono-ink: #0A0A0A;        /* True near-black */
-  --color-mono-surface: #FFFFFF;    /* True white */
-  --color-mono-muted: #6B6B6B;      /* Neutral grey */
-  --color-mono-line: #E5E5E5;       /* Divider grey */
-  --color-brand-red: #E53E3E;       /* Sale/urgency badge */
+  /* Monochrome primitives (explicit tokens for storefront layouts) */
+  --color-mono-ink: #0A0A0A;
+  --color-mono-surface: #FFFFFF;
+  --color-mono-muted: #6B6B6B;
+  --color-mono-line: #E5E5E5;
+  --color-brand-red: #E53E3E;
 
   /* System */
-  --color-success: #2E4A3B;
+  --color-success: #1B7F3A;
   --color-warn: #B78418;
-  --color-danger: #8B2C2C;
-  --color-focus: #B23A2C;
+  --color-danger: #E53E3E;
+  --color-focus: #0A0A0A;
 
   /* Surfaces */
   --surface-canvas: var(--color-canvas);
   --surface-frame: var(--color-frame);
-  --surface-lifted: #FBF8F2;
+  --surface-lifted: #FAFAFA;
 
   /* ---------------- TYPOGRAPHY ---------------- */
   /* Font families are set via next/font in layout.tsx and exposed as CSS vars */

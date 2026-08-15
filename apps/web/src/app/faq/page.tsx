@@ -1,9 +1,5 @@
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Stack } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
+import Link from 'next/link';
 import { Accordion } from '@ik/ui';
-import { Breadcrumb } from '@ik/ui';
 import { ROUTES } from '@ik/config';
 
 export const metadata = { title: 'Questions & Answers' };
@@ -76,18 +72,32 @@ const FAQ = [
 
 export default function FAQPage() {
   return (
-    <Section space="xl">
-      <Container size="editorial">
-        <Breadcrumb items={[{ label: 'Home', href: ROUTES.HOME }, { label: 'Questions' }]} className="mb-8" />
-        <Eyebrow tone="vermilion">Questions we hear</Eyebrow>
-        <h1 className="mt-4 font-display font-normal text-ink text-[clamp(2.25rem,5vw,3.5rem)] leading-[1.08]">
-          Answers, in short.
-        </h1>
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="border-b border-mono-line">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px] py-12 md:py-16">
+          <nav className="mb-6" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 uppercase tracking-[0.14em] text-[0.68rem] font-medium text-mono-muted">
+              <li><Link href={ROUTES.HOME} className="hover:text-mono-ink">Home</Link></li>
+              <li aria-hidden>/</li>
+              <li className="text-mono-ink">Questions</li>
+            </ol>
+          </nav>
+          <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red mb-3">
+            Questions we hear
+          </p>
+          <h1 className="font-sans font-semibold uppercase leading-[1.02] tracking-[-0.005em] text-mono-ink text-[clamp(2rem,4.5vw,3.25rem)]">
+            Answers, in short.
+          </h1>
+        </div>
+      </section>
 
-        <Stack gap={12} className="mt-16">
+      <section className="py-14 md:py-20">
+        <div className="mx-auto w-full max-w-[780px] px-5 md:px-12 flex flex-col gap-12">
           {FAQ.map((group) => (
             <div key={group.heading}>
-              <h2 className="font-display text-[1.375rem] text-ink mb-4">{group.heading}</h2>
+              <h2 className="uppercase tracking-[0.14em] text-[1rem] font-semibold text-mono-ink border-b border-mono-ink pb-3 mb-4">
+                {group.heading}
+              </h2>
               <Accordion
                 items={group.items.map((i) => ({
                   id: i.id,
@@ -97,8 +107,8 @@ export default function FAQPage() {
               />
             </div>
           ))}
-        </Stack>
-      </Container>
-    </Section>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -36,7 +36,7 @@ export function Drawer({
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  const panelBase = 'absolute top-0 bottom-0 bg-canvas shadow-lifted flex flex-col outline-none';
+  const panelBase = 'absolute top-0 bottom-0 bg-mono-surface shadow-lifted flex flex-col outline-none';
   const panelSide =
     side === 'right'
       ? 'right-0 animate-[drawer-in-right_320ms_cubic-bezier(0.2,0,0,1)]'
@@ -45,7 +45,7 @@ export function Drawer({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-[60]">
-      <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm animate-[fade-in_200ms_ease-out]" onClick={onClose} />
+      <div className="absolute inset-0 bg-mono-ink/50 backdrop-blur-sm animate-[fade-in_200ms_ease-out]" onClick={onClose} />
       <aside
         ref={panelRef}
         role="dialog"
@@ -53,10 +53,10 @@ export function Drawer({
         aria-label={title}
         className={cn(panelBase, panelSide, width, className)}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-ink-100">
-          <h2 className="font-display text-[1.25rem] text-ink">{title}</h2>
-          <button type="button" onClick={onClose} aria-label="Close" className="text-ink-500 hover:text-ink">
-            <X size={20} strokeWidth={1.25} />
+        <div className="flex items-center justify-between px-6 py-4 border-b border-mono-line">
+          <h2 className="uppercase tracking-[0.16em] text-[0.8rem] font-semibold text-mono-ink">{title}</h2>
+          <button type="button" onClick={onClose} aria-label="Close" className="text-mono-muted hover:text-mono-ink">
+            <X size={20} strokeWidth={1.5} />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto">{children}</div>

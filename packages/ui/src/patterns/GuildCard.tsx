@@ -10,19 +10,21 @@ export interface GuildCardProps {
 
 export function GuildCard({ guild, className }: GuildCardProps) {
   return (
-    <Link href={ROUTES.GUILD(guild.slug)} className={cn('group flex flex-col gap-4', className)}>
-      <div className="relative overflow-hidden rounded-lg bg-frame aspect-[3/4]">
+    <Link href={ROUTES.GUILD(guild.slug)} className={cn('group flex flex-col gap-3', className)}>
+      <div className="relative overflow-hidden bg-mono-line aspect-[3/4]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={guild.portrait.src}
           alt={guild.portrait.alt}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-[400ms] group-hover:scale-[1.02]"
+          className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-[1.03]"
         />
       </div>
       <div className="flex flex-col gap-1">
-        <h3 className="font-display text-[1.375rem] text-ink">{guild.name}</h3>
-        <p className="text-[0.8125rem] text-muted">
+        <h3 className="uppercase tracking-[0.02em] font-sans font-semibold text-[1.125rem] text-mono-ink group-hover:text-brand-red transition-colors">
+          {guild.name}
+        </h3>
+        <p className="text-[0.75rem] uppercase tracking-[0.14em] font-medium text-mono-muted">
           {guild.region} · {guild.memberCount} weavers
         </p>
       </div>

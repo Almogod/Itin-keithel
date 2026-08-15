@@ -1,23 +1,42 @@
 import Link from 'next/link';
-import { Container } from '@ik/ui';
 import { Wordmark } from './Wordmark';
-import { Eyebrow } from '@ik/ui';
 import { NewsletterForm } from './NewsletterForm';
-import { ROUTES } from '@ik/config';
-import { SITE } from '@ik/config';
+import { ROUTES, SITE } from '@ik/config';
 
 export function Footer() {
   return (
-    <footer className="mt-32 bg-canvas border-t border-ink-100">
-      <Container size="wide">
-        <div className="py-16 md:py-24 grid gap-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div className="flex flex-col gap-6">
+    <footer className="mt-24 border-t border-mono-line bg-mono-surface text-mono-ink">
+      <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px]">
+        {/* Trust strip */}
+        <div className="py-10 md:py-12 border-b border-mono-line grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+          {TRUST.map((t) => (
+            <div key={t.title} className="flex flex-col gap-1.5">
+              <p className="uppercase tracking-[0.16em] text-[0.7rem] font-semibold text-mono-ink">
+                {t.title}
+              </p>
+              <p className="text-[0.8125rem] text-mono-muted leading-[1.5]">{t.body}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Main footer grid */}
+        <div className="py-14 md:py-20 grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+          <div className="flex flex-col gap-5">
             <Wordmark size="lg" />
-            <p className="text-[0.9375rem] text-ink-700 max-w-sm">
-              A quiet, warm catalogue of Manipur’s living crafts — named by maker,
+            <p className="text-[0.9375rem] text-mono-muted max-w-sm leading-[1.55]">
+              A quiet catalogue of Manipur&rsquo;s living crafts — named by maker,
               framed by place. Shipped from Imphal, folded with tissue.
             </p>
-            <NewsletterForm />
+            <div className="flex items-center gap-3 pt-1">
+              <a
+                href={SITE.social.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="uppercase tracking-[0.18em] text-[0.68rem] font-semibold text-mono-ink border-b border-mono-ink pb-0.5 hover:text-brand-red hover:border-brand-red transition-colors"
+              >
+                Instagram
+              </a>
+            </div>
           </div>
 
           <FooterColumn
@@ -42,43 +61,52 @@ export function Footer() {
               { label: 'Contact', href: ROUTES.CONTACT },
             ]}
           />
-          <FooterColumn
-            title="Support"
-            links={[
+
+          <div className="flex flex-col gap-4">
+            <p className="uppercase tracking-[0.18em] text-[0.68rem] font-semibold text-mono-ink">
+              Newsletter
+            </p>
+            <NewsletterForm />
+          </div>
+        </div>
+
+        {/* Support strip */}
+        <div className="py-6 border-t border-mono-line flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.75rem] text-mono-muted">
+            {[
               { label: 'Shipping', href: ROUTES.SHIPPING },
               { label: 'Returns', href: ROUTES.RETURNS },
               { label: 'FAQ', href: ROUTES.FAQ },
               { label: 'Terms', href: ROUTES.TERMS },
               { label: 'Privacy', href: ROUTES.PRIVACY },
-            ]}
-          />
-        </div>
-
-        <hr className="hairline" />
-
-        <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-center md:text-left">
-          <p className="small-caps text-[0.7rem] text-vermilion tracking-[0.18em]">
-            Rooted in Manipur · Woven by Guilds
-          </p>
-          <p className="text-[0.75rem] text-muted max-w-lg md:text-right">
-            Every price includes a direct share to the guild. Shipped from Imphal, folded with tissue.
+            ].map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="uppercase tracking-[0.14em] hover:text-mono-ink transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="uppercase tracking-[0.18em] text-[0.7rem] text-mono-muted">
+            Ships worldwide · INR ₹
           </p>
         </div>
 
-        <hr className="hairline" />
-
-        <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-[0.75rem] text-muted">
-          <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
-          <p>
-            <a href={SITE.social.instagram} target="_blank" rel="noreferrer" className="hover:text-vermilion transition-colors">
-              Instagram
-            </a>
-          </p>
+        <div className="py-6 border-t border-mono-line flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[0.72rem] text-mono-muted">
+          <p>&copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+          <p className="uppercase tracking-[0.18em]">Rooted in Manipur · Woven by guilds</p>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }
+
+const TRUST = [
+  { title: 'Pan-India Delivery', body: 'Free shipping on orders over ₹6,000.' },
+  { title: 'Ships from Imphal', body: 'Dispatched within 48 hours.' },
+  { title: 'Verified Provenance', body: 'GI-registered pieces with maker details.' },
+  { title: 'Secure Payment', body: 'Cards, UPI, and net banking.' },
+];
 
 interface Col {
   title: string;
@@ -88,13 +116,15 @@ interface Col {
 function FooterColumn({ title, links }: Col) {
   return (
     <div className="flex flex-col gap-4">
-      <Eyebrow tone="muted">{title}</Eyebrow>
-      <ul className="flex flex-col gap-2">
+      <p className="uppercase tracking-[0.18em] text-[0.68rem] font-semibold text-mono-ink">
+        {title}
+      </p>
+      <ul className="flex flex-col gap-2.5">
         {links.map((l) => (
           <li key={l.href}>
             <Link
               href={l.href}
-              className="text-[0.9375rem] text-ink hover:text-vermilion transition-colors"
+              className="text-[0.875rem] text-mono-muted hover:text-mono-ink transition-colors"
             >
               {l.label}
             </Link>

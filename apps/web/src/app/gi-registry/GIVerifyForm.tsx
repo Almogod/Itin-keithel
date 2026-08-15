@@ -30,7 +30,7 @@ export function GIVerifyForm() {
   }
 
   return (
-    <div className="border border-ink-100 rounded-lg p-6">
+    <div className="border border-mono-ink p-6">
       <form onSubmit={submit} className="flex flex-col sm:flex-row items-end gap-4">
         <div className="flex-1 w-full">
           <Input
@@ -88,20 +88,22 @@ function ResultCard({
   return (
     <div
       className={cn(
-        'mt-6 flex gap-4 p-4 rounded-md border',
-        status === 'ok' ? 'border-success/30 bg-success/5' : 'border-danger/30 bg-danger/5',
+        'mt-6 flex gap-4 p-4 border-l-4',
+        status === 'ok' ? 'border-success bg-mono-line/40' : 'border-brand-red bg-mono-line/40',
       )}
     >
       <span
         className={cn(
-          'inline-flex items-center justify-center w-8 h-8 rounded-full shrink-0',
-          status === 'ok' ? 'bg-success text-canvas' : 'bg-danger text-canvas',
+          'inline-flex items-center justify-center w-8 h-8 shrink-0',
+          status === 'ok' ? 'bg-success text-mono-surface' : 'bg-brand-red text-mono-surface',
         )}
       >
         {status === 'ok' ? <Check size={16} strokeWidth={2} /> : <X size={16} strokeWidth={2} />}
       </span>
       <div className="flex-1 flex flex-col gap-1">
-        <p className="small-caps text-[0.72rem] text-muted">{title}</p>
+        <p className="uppercase tracking-[0.18em] text-[0.68rem] font-semibold text-mono-muted">
+          {title}
+        </p>
         {children}
       </div>
     </div>

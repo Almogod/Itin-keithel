@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       <label
         htmlFor={inputId}
         className={cn(
-          'small-caps text-[0.72rem] text-muted',
+          'uppercase tracking-[0.16em] text-[0.68rem] font-semibold text-mono-ink',
           hideLabel && 'sr-only',
         )}
       >
@@ -36,33 +36,33 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
       <div
         className={cn(
-          'group flex items-center gap-2 bg-canvas',
-          'border border-ink-300 rounded-md px-3 py-2.5',
+          'group flex items-center gap-2 bg-mono-surface',
+          'border border-mono-ink px-3 py-2.5',
           'transition-colors duration-[200ms]',
-          'focus-within:border-vermilion focus-within:ring-2 focus-within:ring-vermilion/20',
-          error && 'border-danger focus-within:border-danger focus-within:ring-danger/20',
+          'focus-within:border-mono-ink focus-within:outline focus-within:outline-1 focus-within:outline-mono-ink',
+          error && 'border-brand-red focus-within:border-brand-red focus-within:outline-brand-red',
         )}
       >
-        {leading ? <span className="text-muted">{leading}</span> : null}
+        {leading ? <span className="text-mono-muted">{leading}</span> : null}
         <input
           ref={ref}
           id={inputId}
           aria-invalid={!!error}
           aria-describedby={cn(hintId, errId)}
           className={cn(
-            'flex-1 bg-transparent outline-none text-ink text-[0.9375rem]',
-            'placeholder:text-ink-300',
+            'flex-1 bg-transparent outline-none text-mono-ink text-[0.9375rem]',
+            'placeholder:text-mono-muted',
           )}
           {...rest}
         />
-        {trailing ? <span className="text-muted">{trailing}</span> : null}
+        {trailing ? <span className="text-mono-muted">{trailing}</span> : null}
       </div>
 
       {hint && !error ? (
-        <p id={hintId} className="text-[0.75rem] text-muted">{hint}</p>
+        <p id={hintId} className="text-[0.72rem] text-mono-muted">{hint}</p>
       ) : null}
       {error ? (
-        <p id={errId} className="text-[0.75rem] text-danger">{error}</p>
+        <p id={errId} className="text-[0.72rem] text-brand-red">{error}</p>
       ) : null}
     </div>
   );

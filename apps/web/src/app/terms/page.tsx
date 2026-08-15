@@ -1,25 +1,31 @@
-import { Container } from '@ik/ui';
-import { Section } from '@ik/ui';
-import { Stack } from '@ik/ui';
-import { Eyebrow } from '@ik/ui';
-import { Hairline } from '@ik/ui';
-import { Breadcrumb } from '@ik/ui';
+import Link from 'next/link';
 import { ROUTES } from '@ik/config';
 
 export const metadata = { title: 'Terms of Service' };
 
 export default function TermsPage() {
   return (
-    <Section space="xl">
-      <Container size="editorial">
-        <Breadcrumb items={[{ label: 'Home', href: ROUTES.HOME }, { label: 'Terms' }]} className="mb-8" />
-        <Eyebrow tone="vermilion">Last updated · August 2026</Eyebrow>
-        <h1 className="mt-4 font-display font-normal text-ink text-[clamp(2.25rem,5vw,3.5rem)] leading-[1.08]">
-          Terms of Service
-        </h1>
-        <Hairline vermilion className="w-16 my-8" />
+    <div className="bg-mono-surface text-mono-ink">
+      <section className="border-b border-mono-line">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-12 lg:px-16 xl:px-[88px] py-12 md:py-16">
+          <nav className="mb-6" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 uppercase tracking-[0.14em] text-[0.68rem] font-medium text-mono-muted">
+              <li><Link href={ROUTES.HOME} className="hover:text-mono-ink">Home</Link></li>
+              <li aria-hidden>/</li>
+              <li className="text-mono-ink">Terms</li>
+            </ol>
+          </nav>
+          <p className="uppercase tracking-[0.24em] text-[0.7rem] font-semibold text-brand-red mb-3">
+            Last updated · August 2026
+          </p>
+          <h1 className="font-sans font-semibold uppercase leading-[1.02] tracking-[-0.005em] text-mono-ink text-[clamp(2rem,4.5vw,3.25rem)]">
+            Terms of service
+          </h1>
+        </div>
+      </section>
 
-        <Stack gap={8} className="text-[1rem] text-ink-700 leading-[1.7]">
+      <section className="py-14 md:py-20">
+        <div className="mx-auto w-full max-w-[780px] px-5 md:px-12 flex flex-col gap-8 text-[1rem] text-mono-ink leading-[1.7]">
           <Clause n="1" title="Who we are">
             Itin Keithel is a partnership registered in Manipur, India. Registered office: Wangkhei
             Bazaar, Imphal East, 795005. In these terms, &ldquo;we&rdquo;, &ldquo;us&rdquo;, and &ldquo;our&rdquo; refer to Itin Keithel.
@@ -34,12 +40,11 @@ export default function TermsPage() {
           </Clause>
           <Clause n="4" title="Made pieces">
             Custom and ceremonial pieces are made to order and are non-returnable. Lead times are
-            approximate — hand-loomed goods vary with weather, thread quality, and the maker&apos;s health.
+            approximate — hand-loomed goods vary with weather, thread quality, and the maker&rsquo;s health.
           </Clause>
           <Clause n="5" title="Provenance">
             We publish the artisan, village, and (where applicable) GI code for every piece. This
-            information is offered in good faith based on records provided by the guild. If you have a
-            question about a piece&apos;s provenance, please write to us.
+            information is offered in good faith based on records provided by the guild.
           </Clause>
           <Clause n="6" title="Intellectual property">
             All photography, text, and design on this site are the property of Itin Keithel or the
@@ -56,20 +61,20 @@ export default function TermsPage() {
           <Clause n="9" title="Contact">
             Questions about these terms may be sent to hello@itin-keithel.com.
           </Clause>
-        </Stack>
-      </Container>
-    </Section>
+        </div>
+      </section>
+    </div>
   );
 }
 
 function Clause({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
   return (
-    <section>
-      <h2 className="font-display text-[1.375rem] text-ink mb-2">
-        <span className="text-vermilion tabular-nums mr-3">{n}.</span>
+    <section className="border-b border-mono-line pb-6 last:border-none">
+      <h2 className="uppercase tracking-[0.06em] font-sans font-semibold text-[1.125rem] text-mono-ink mb-2 flex items-baseline gap-3">
+        <span className="text-brand-red tabular-nums">{n}.</span>
         {title}
       </h2>
-      <div className="text-ink-700">{children}</div>
+      <div>{children}</div>
     </section>
   );
 }

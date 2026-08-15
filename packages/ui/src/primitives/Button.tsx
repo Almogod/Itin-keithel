@@ -6,24 +6,24 @@ type Variant = 'primary' | 'ghost' | 'text';
 type Size = 'sm' | 'md' | 'lg';
 
 const BASE =
-  'inline-flex items-center justify-center gap-2 font-sans font-medium tracking-[0.02em] rounded-[6px] ' +
+  'inline-flex items-center justify-center gap-2 font-sans font-semibold uppercase tracking-[0.18em] ' +
   'transition-[background-color,color,border-color,transform] duration-[200ms] ease-[cubic-bezier(0.2,0,0,1)] ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vermilion focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-ink focus-visible:ring-offset-2 focus-visible:ring-offset-mono-surface ' +
   'disabled:opacity-40 disabled:cursor-not-allowed select-none';
 
 const VARIANT: Record<Variant, string> = {
   primary:
-    'bg-action text-canvas hover:bg-action-hover active:translate-y-[1px]',
+    'bg-mono-ink text-mono-surface hover:bg-brand-red active:translate-y-[1px]',
   ghost:
-    'bg-transparent text-ink border border-ink hover:bg-ink hover:text-canvas',
+    'bg-transparent text-mono-ink border border-mono-ink hover:bg-mono-ink hover:text-mono-surface',
   text:
-    'bg-transparent text-ink underline decoration-muted underline-offset-4 hover:decoration-vermilion',
+    'bg-transparent text-mono-ink border-b border-mono-ink pb-0.5 hover:text-brand-red hover:border-brand-red normal-case tracking-[0.14em]',
 };
 
 const SIZE: Record<Size, string> = {
-  sm: 'text-[0.8125rem] px-4 py-2 min-h-[36px]',
-  md: 'text-[0.9375rem] px-6 py-3 min-h-[44px]',
-  lg: 'text-[1rem] px-8 py-4 min-h-[52px]',
+  sm: 'text-[0.7rem] px-4 py-2 min-h-[36px]',
+  md: 'text-[0.75rem] px-6 py-3.5 min-h-[44px]',
+  lg: 'text-[0.8125rem] px-8 py-4 min-h-[52px]',
 };
 
 interface CommonProps {

@@ -8,7 +8,9 @@ export default async function OrdersPage() {
   const { items: orders } = await getOrdersForUser(user.id, { pageSize: 100 });
   return (
     <div>
-      <h2 className="font-display text-[1.75rem] text-ink mb-8">All orders</h2>
+      <h2 className="uppercase tracking-[0.14em] text-[1.125rem] font-semibold text-mono-ink border-b border-mono-ink pb-3 mb-8">
+        All orders
+      </h2>
       <div>
         {orders.map((o) => (
           <OrderRow key={o.id} order={o} />
